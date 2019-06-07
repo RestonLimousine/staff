@@ -13,6 +13,12 @@
       background-color: rgba(200,200,200,0.5);
       cursor: pointer;
     }
+    .details {
+      display: none;
+    }
+    .open .details {
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -27,8 +33,6 @@
       container.appendChild(h1);
       var listingContainer = document.createElement("div");
       listingContainer.className = "listing-container";
-      var id = pageContent.listingId;
-      if (id) listingContainer.id = id;
       container.appendChild(listingContainer);
       pageContent.listing.forEach(function (item) {
         var itemDiv = document.createElement("div");
@@ -36,13 +40,18 @@
         for (var p in item.data) {
           itemDiv.dataset[p] = item.data[p];
         }
+        if (item.details) {
+          var detailsDiv = document.createElement("div");
+          detailsDiv.className = "details";
+          detailsDiv.textContent = item.details;
+          itemDiv.appendChild(detailsDiv);
+        }
         listingContainer.appendChild(itemDiv);
       });
     }
     
     loadPage({
       title: "Choose a Resource",
-      listingId: "resource-listing",
       listing: [
         {
           header: "Clients",
@@ -63,23 +72,31 @@
     
     var token = location.search.slice(tokenStart, ampIdx);
     
-    document.getElementById("resource-listing").addEventListener("click", function (e) {
+    var start = true;
+    
+    container.addEventListener("click", function (e) {
       var target = e.target,
-          repo = target.dataset.repo,
-          page = target.dataset.page,
-          url = "https://api.github.com/repos/RestonLimousine/" + repo + "/contents/" + page;
+          dataset = target.dataset;
+      if (start) {
+        start = false;
+        var repo = dataset.repo,
+            page = dataset.page,
+            url = "https://api.github.com/repos/RestonLimousine/" + repo + "/contents/" + page;
       
-      fetch(url, {
-        headers: {
-          "Authorization": "token " + token,
-          "User-Agent": "RestonLimousine",
-          "Accept": "application/vnd.github.v3.raw"
-        }
-      }).then(response => response.text().then(function (text) {
-        loadPage(JSON.parse(text));
-      }));
-      
+        fetch(url, {
+          headers: {
+            "Authorization": "token " + token,
+            "User-Agent": "RestonLimousine",
+            "Accept": "application/vnd.github.v3.raw"
+          }
+        }).then(response => response.text().then(function (text) {
+          loadPage(JSON.parse(text));
+        }));
+      } else {
+        target.classList.toggle("open");
+      }
     }, true);
+    
   </script>
 </body>
 </html>
