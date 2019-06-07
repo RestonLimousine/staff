@@ -6,6 +6,11 @@
     h1 {
       text-align: center;
     }
+    .center {
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+    }
     table {
       border-collapse: collapse;
       border: 1px solid gray;
@@ -36,17 +41,40 @@
   <script>
     var container = document.getElementById("container");
     
+    function insens (s) {
+      return s.toLowerCase().replace(/\s/, '');
+    }
+    
+    function filterListing (pageContent) {
+      return function (e) {
+        var query = e.target.value;
+        if (query.length === 0) return;
+        for (var i = 0; i < pageContent.listing; i++) {
+          var item = pageContent.listing[i];
+          if (insens(item.header) === insens(query))
+            item.display = false;
+        }
+        loadPage(pageContent);
+      }
+    }
+    
     function loadPage (pageContent) {
       container.textContent = "";
       var h1 = document.createElement("h1");
       h1.textContent = pageContent.title;
       container.appendChild(h1);
+      var search = document.createElement("input");
+      search.type = "text";
+      search.className = "search";
+      search.addEventListener("change", filterListing(pageContent), true);
+      container.appendChild(search);
       var table = document.createElement("table");
       table.className = "listing-table";
       container.appendChild(table);
       var tbody = document.createElement("tbody");
       table.appendChild(tbody);
       pageContent.listing.forEach(function (item) {
+        if (item.display === false) return;
         var tr = document.createElement("tr");
         var itemHeader = document.createElement("td");
         itemHeader.className = "item-header item-action";
