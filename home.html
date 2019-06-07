@@ -51,6 +51,7 @@
         if (query.length === 0) return;
         for (var i = 0; i < pageContent.listing; i++) {
           var item = pageContent.listing[i];
+          console.log(insens(item.header), insens(query));
           if (insens(item.header).indexOf(insens(query)) === -1) {
             item.display = false;
           } else {
@@ -71,7 +72,10 @@
       search.className = "search";
       search.placeholder = "type here to search";
       search.addEventListener("input", filterListing(pageContent), true);
-      if (query) search.value = query;
+      if (query) {
+        search.value = query;
+        search.focus();
+      }
       container.appendChild(search);
       var table = document.createElement("table");
       table.className = "listing-table";
