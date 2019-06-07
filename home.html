@@ -4,19 +4,25 @@
 <script src="sjcl.js"></script>
 </head>
 <body>
-  <label>Access Token: </label><input id="token" type="password">
-  <button id="submit">Submit</button>
+  <h2>Choose a Resource:</h2>
+  <ul id="resource-listing">
+    <li>
+      <a class= href="javascript:void(0)" data-repo="clients" data-page="listing.html">Clients</a>
+    </li>
+  </ul>
 <script>
   var tokenInput = document.getElementById("token"),
       tokenIdx = location.search.indexOf("token"),
       tokenStart = tokenIdx + "token=".length,
       ampIdx = location.search.indexOf("&", tokenIdx);
   if (ampIdx === -1) ampIdx = location.search.length;
-  tokenInput.value = location.search.slice(tokenStart, ampIdx);
-  console.log(tokenInput.value);
-  document.getElementById("submit").addEventListener("click", function () {
-    var token = tokenInput.value;
-    fetch("https://api.github.com/repos/RestonLimousine/clients/contents/listing.html", {
+  var token = location.search.slice(tokenStart, ampIdx);
+  document.getElementById("resource-listing").addEventListener("click", function (e) {
+    var target = e.target,
+        repo = target.dataset.repo,
+        page = target.dataset.page,
+        url = "https://api.github.com/repos/RestonLimousine/" + repo + "/contents/" + page;
+    fetch(url, {
       headers: {
         "Authorization": "token " + token,
         "User-Agent": "RestonLimousine",
