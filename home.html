@@ -9,10 +9,21 @@
     table {
       border-collapse: collapse;
       border: 1px solid gray;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    tr {
+      border-bottom: 1px solid gray;
+    }
+    tr:last-child {
+      border-bottom: 0;
     }
     td {
       padding: 10px;
-      /*border-right: 1px solid lightgray;*/
+      border-right: 1px solid lightgray;
+    }
+    td:last-child {
+      border-right: 0;
     }
     td:hover {
       background-color: rgba(200,200,200,0.5);
