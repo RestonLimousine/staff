@@ -16,7 +16,7 @@ document.getElementById("submit").addEventListener("click", function () {
       "Accept": "application/vnd.github.v3.raw"
     }
   }).then(response => response.text().then(function (text) {
-    body.innerHTML = text;
+    document.body.innerHTML = text;
   }));
 }, true);
 </script>
