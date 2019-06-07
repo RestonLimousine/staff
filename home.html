@@ -13,7 +13,7 @@ document.getElementById("submit").addEventListener("click", function () {
     headers: {
       "Authorization": "token " + token,
       "User-Agent": "RestonLimousine",
-      "Accept": "application/json"
+      "Accept": "application/vnd.github.v3.raw"
     }
   }).then(response => response.json().then(body => console.log(body.content)))
 }, true);
