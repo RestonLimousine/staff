@@ -1,28 +1,38 @@
 <!doctype html>
 <html>
 <head>
-<script src="sjcl.js"></script>
+  <style>
+    h1 {
+      text-align: center;
+    }
+    .listing-container > div {
+      border: 1px solid gray;
+    }
+  </style>
 </head>
 <body>
   <div id="container">
-    <h2>Choose a Resource:</h2>
-    <ul id="resource-listing">
-      <li>
+    <h1>Choose a Resource:</h1>
+    <div id="resource-listing" class="listing-container">
+      <div class="listing-item">
         <a href="javascript:void(0)" data-repo="clients" data-page="listing.json">Clients</a>
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
   <script>
     var container = document.getElementById("container");
     function loadPage (pageContent) {
       container.textContent = "";
-      var h2 = document.createElement("h2");
-      h2.textContent = pageContent.title;
-      container.appendChild(h2);
+      var h1 = document.createElement("h1");
+      h1.textContent = pageContent.title;
+      container.appendChild(h1);
+      var listingContainer = document.createElement("div");
+      listingContainer.className = "listing-container";
+      container.appendChild(listingContainer);
       pageContent.listing.forEach(function (item) {
         var itemDiv = document.createElement("div");
         itemDiv.textContent = item.header;
-        container.appendChild(itemDiv);
+        listingContainer.appendChild(itemDiv);
       });
     }
     var tokenInput = document.getElementById("token"),
