@@ -4,21 +4,28 @@
 <script src="sjcl.js"></script>
 </head>
 <body>
-<input id="token" type="password">
-<button id="submit">Submit</button>
+  <label>Access Token: </label><input id="token" type="password">
+  <button id="submit">Submit</button>
 <script>
-document.getElementById("submit").addEventListener("click", function () {
-  var token = document.getElementById("token").value;
-  fetch("https://api.github.com/repos/RestonLimousine/clients/contents/listing.html", {
-    headers: {
-      "Authorization": "token " + token,
-      "User-Agent": "RestonLimousine",
-      "Accept": "application/vnd.github.v3.raw"
-    }
-  }).then(response => response.text().then(function (text) {
-    document.body.innerHTML = text;
-  }));
-}, true);
+  var tokenInput = document.getElementById("token"),
+      tokenIdx = location.search.indexOf("token"),
+      tokenStart = tokenIdx + "token=".length,
+      ampIdx = location.search.indexOf("&", tokenIdx);
+  if (ampIdx === -1) ampIdx = location.search.length;
+  tokenInput.value = location.search.slice(tokenStart, ampIdx);
+  console.log(tokenInput.value);
+  document.getElementById("submit").addEventListener("click", function () {
+    var token = tokenInput.value;
+    fetch("https://api.github.com/repos/RestonLimousine/clients/contents/listing.html", {
+      headers: {
+        "Authorization": "token " + token,
+        "User-Agent": "RestonLimousine",
+        "Accept": "application/vnd.github.v3.raw"
+      }
+    }).then(response => response.text().then(function (text) {
+      document.body.innerHTML = text;
+    }));
+  }, true);
 </script>
 </body>
 </html>
