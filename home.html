@@ -15,7 +15,9 @@ document.getElementById("submit").addEventListener("click", function () {
       "User-Agent": "RestonLimousine",
       "Accept": "application/vnd.github.v3.raw"
     }
-  }).then(response => response.json().then(body => console.log(body.content)))
+  }).then(response => response.text().then(function (text) {
+    body.innerHTML = text;
+  }));
 }, true);
 </script>
 </body>
