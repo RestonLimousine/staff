@@ -51,8 +51,11 @@
         if (query.length === 0) return;
         for (var i = 0; i < pageContent.listing; i++) {
           var item = pageContent.listing[i];
-          if (insens(item.header) === insens(query))
+          if (insens(item.header).indexOf(insens(query)) === -1) {
             item.display = false;
+          } else {
+            item.display = true;
+          }
         }
         loadPage(pageContent, query);
       }
