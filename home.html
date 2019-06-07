@@ -51,7 +51,7 @@
         var itemDiv = document.createElement("div");
         itemDiv.className = "listing-item";
         var itemHeader = document.createElement("div");
-        itemHeader.className = "item-header";
+        itemHeader.className = "item-header item-action";
         itemHeader.textContent = item.header;
         for (var p in item.data) {
           itemHeader.dataset[p] = item.data[p];
@@ -60,6 +60,7 @@
         if (item.actions) {
           item.actions.forEach(function (action) {
             var actionDiv = document.createElement("div");
+            actionDiv.className = "item-action";
             actionDiv.dataset.type = action.type;
             actionDiv.dataset.data = action.data;
             actionDiv.textContent = action.text;
@@ -126,7 +127,7 @@
     container.addEventListener("click", function (e) {
       var target = e.target,
           dataset = target.dataset;
-      if (target.classList.contains("listing-item")) {
+      if (target.classList.contains("item-action")) {
         if (start) {
           start = false;
           var repo = dataset.repo,
