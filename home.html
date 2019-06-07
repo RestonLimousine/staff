@@ -120,7 +120,14 @@
         }));
       } else {
         switch (dataset.type) {
-          case "email": window.open("mailto:" + dataset.data); break;
+          case "email":
+            (function (a) {
+              a.href = "mailto:" + dataset.data;
+              document.body.appendChild(a);
+              a.click();
+              a.remove();
+            })(document.createElement("a"));
+          break;
           case "link": window.open(dataset.data); break;
         }
       }
