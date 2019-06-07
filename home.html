@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+<script src="sjcl.js"></script>
+</head>
+<body>
+<input id="token" type="password">
+<button id="submit">Submit</button>
+<script>
+document.getElementById("submit").addEventListener("click", function () {
+  var token = document.getElementById("token").value;
+  fetch("https://api.github.com/repos/RestonLimousine/clients/contents/listing.html", {
+    headers: {
+      "Authorization": "token " + token,
+      "User-Agent": "RestonLimousine",
+      "Accept": "application/json"
+    }
+  }).then(response => response.json().then(body => console.log(body.content)))
+}, true);
+</script>
+</body>
+</html>
