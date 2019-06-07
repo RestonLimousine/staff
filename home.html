@@ -11,14 +11,7 @@
   </style>
 </head>
 <body>
-  <div id="container">
-    <h1>Choose a Resource:</h1>
-    <div id="resource-listing" class="listing-container">
-      <div class="listing-item">
-        <a href="javascript:void(0)" data-repo="clients" data-page="listing.json">Clients</a>
-      </div>
-    </div>
-  </div>
+  <div id="container"></div>
   <script>
     var container = document.getElementById("container");
     function loadPage (pageContent) {
@@ -28,13 +21,30 @@
       container.appendChild(h1);
       var listingContainer = document.createElement("div");
       listingContainer.className = "listing-container";
+      listingContainer.id = pageContent.listingId;
       container.appendChild(listingContainer);
       pageContent.listing.forEach(function (item) {
         var itemDiv = document.createElement("div");
         itemDiv.textContent = item.header;
+        for (var p in item.data) {
+          itemDiv.dataset[p] = item[p];
+        }
         listingContainer.appendChild(itemDiv);
       });
     }
+    loadPage({
+      title: "Choose a Resource",
+      listingId: "resource-listing",
+      listing: [
+        {
+          header: "Clients",
+          data: {
+            repo: "clients",
+            page: "listing.json"
+          }
+        }
+      ]
+    });
     var tokenInput = document.getElementById("token"),
         tokenIdx = location.search.indexOf("token"),
         tokenStart = tokenIdx + "token=".length,
