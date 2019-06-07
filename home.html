@@ -1,5 +1,6 @@
 <!doctype html>
 <html>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 <head>
   <style>
     h1 {
@@ -15,7 +16,7 @@
       padding: 10px;
     }
     .listing-item > div {
-      border-right: 1px dashed lightgray;
+      border-right: 1px solid lightgray;
     }
     .listing-item > div:last-child {
       border: none;
@@ -119,8 +120,8 @@
         }));
       } else {
         switch (dataset.type) {
-          case "email":
-            window.open("mailto:" + dataset.data);
+          case "email": window.open("mailto:" + dataset.data); break;
+          case "link": window.open(dataset.data); break;
         }
       }
     }, true);
