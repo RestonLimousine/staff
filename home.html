@@ -13,6 +13,7 @@
     }
     .listing-item > div {
       padding: 10px;
+      flex-grow: 1;
     }
     .listing-item > div:hover {
       background-color: rgba(200,200,200,0.5);
@@ -53,6 +54,7 @@
           item.actions.forEach(function (action) {
             var actionDiv = document.createElement("div");
             actionDiv.dataset = action;
+            actionDiv.textContent = action.text;
             itemDiv.appendChild(actionDiv);
           });
         }
