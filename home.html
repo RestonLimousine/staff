@@ -48,11 +48,9 @@
     function filterListing (pageContent) {
       return function (e) {
         var query = e.target.value;
-        if (query.length === 0) return;
         for (var i = 0; i < pageContent.listing.length; i++) {
           var item = pageContent.listing[i];
-          console.log(insens(item.header), insens(query));
-          if (insens(item.header).indexOf(insens(query)) === -1) {
+          if (query.length > 0 && insens(item.header).indexOf(insens(query)) === -1) {
             item.display = false;
           } else {
             item.display = true;
@@ -72,11 +70,9 @@
       search.className = "search";
       search.placeholder = "type here to search";
       search.addEventListener("input", filterListing(pageContent), true);
-      if (query) {
-        search.value = query;
-        search.focus();
-      }
+      if (query) search.value = query;
       container.appendChild(search);
+      search.focus();
       var table = document.createElement("table");
       table.className = "listing-table";
       container.appendChild(table);
