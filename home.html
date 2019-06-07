@@ -53,7 +53,8 @@
         if (item.actions) {
           item.actions.forEach(function (action) {
             var actionDiv = document.createElement("div");
-            actionDiv.dataset = action;
+            actionDiv.dataset.type = action.type;
+            actionDiv.dataset.data = action.data;
             actionDiv.textContent = action.text;
             itemDiv.appendChild(actionDiv);
           });
