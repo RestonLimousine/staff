@@ -6,7 +6,7 @@
     h1 {
       text-align: center;
     }
-    .center {
+    .search {
       width: 100%;
       padding: 10px;
       box-sizing: border-box;
@@ -66,7 +66,8 @@
       var search = document.createElement("input");
       search.type = "text";
       search.className = "search";
-      search.addEventListener("change", filterListing(pageContent), true);
+      search.placeholder = "type here to search";
+      search.addEventListener("input", filterListing(pageContent), true);
       container.appendChild(search);
       var table = document.createElement("table");
       table.className = "listing-table";
