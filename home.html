@@ -109,7 +109,9 @@
           }
         break;
         case String:
+          console.log(template);
           copy = template.replace(/\{\{[^\}]+\}\}/, function (_, m) {
+            console.log(m, item);
             return item[m];
           });
         break;
