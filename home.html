@@ -126,7 +126,7 @@
     container.addEventListener("click", function (e) {
       var target = e.target,
           dataset = target.dataset;
-      if (target.classList.has("listing-item")) {
+      if (target.classList.contains("listing-item")) {
         if (start) {
           start = false;
           var repo = dataset.repo,
