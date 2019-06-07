@@ -4,7 +4,7 @@
 <script src="sjcl.js"></script>
 </head>
 <body>
-  <div id="listing-container">
+  <div id="container">
     <h2>Choose a Resource:</h2>
     <ul id="resource-listing">
       <li>
@@ -13,13 +13,16 @@
     </ul>
   </div>
   <script>
-    var listingContainer = document.getElementById("listing-container");
-    function loadListing (listing) {
-      listingContainer.textContent = "";
-      listing.forEach(function (item) {
+    var container = document.getElementById("container");
+    function loadPage (pageContent) {
+      container.textContent = "";
+      var h2 = document.createElement("h2");
+      h2.textContent = pageContent.title;
+      container.appendChild(h2);
+      pageContent.listing.forEach(function (item) {
         var itemDiv = document.createElement("div");
         itemDiv.textContent = item.header;
-        listingContainer.appendChild(itemDiv);
+        container.appendChild(itemDiv);
       });
     }
     var tokenInput = document.getElementById("token"),
@@ -40,7 +43,7 @@
           "Accept": "application/vnd.github.v3.raw"
         }
       }).then(response => response.text().then(function (text) {
-        loadListing(JSON.parse(text));
+        loadPage(JSON.parse(text));
       }));
     }, true);
   </script>
