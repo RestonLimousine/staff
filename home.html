@@ -4,6 +4,14 @@
 <script src="sjcl.js"></script>
 </head>
 <body>
+  <div id="listing-container">
+    <h2>Choose a Resource:</h2>
+    <ul id="resource-listing">
+      <li>
+        <a href="javascript:void(0)" data-repo="clients" data-page="listing.html">Clients</a>
+      </li>
+    </ul>
+  </div>
   <script>
     var listingContainer = document.getElementById("listing-container");
     function loadListing (listing) {
@@ -15,14 +23,6 @@
       });
     }
   </script>
-  <div id="listing-container">
-    <h2>Choose a Resource:</h2>
-    <ul id="resource-listing">
-      <li>
-        <a href="javascript:void(0)" data-repo="clients" data-page="listing.html">Clients</a>
-      </li>
-    </ul>
-  </div>
 <script>
   var tokenInput = document.getElementById("token"),
       tokenIdx = location.search.indexOf("token"),
