@@ -19,6 +19,7 @@
   <div id="container"></div>
   <script>
     var container = document.getElementById("container");
+    
     function loadPage (pageContent) {
       container.textContent = "";
       var h1 = document.createElement("h1");
@@ -26,7 +27,8 @@
       container.appendChild(h1);
       var listingContainer = document.createElement("div");
       listingContainer.className = "listing-container";
-      listingContainer.id = pageContent.listingId;
+      var id = pageContent.listingId;
+      if (id) listingContainer.id = id;
       container.appendChild(listingContainer);
       pageContent.listing.forEach(function (item) {
         var itemDiv = document.createElement("div");
@@ -37,6 +39,7 @@
         listingContainer.appendChild(itemDiv);
       });
     }
+    
     loadPage({
       title: "Choose a Resource",
       listingId: "resource-listing",
@@ -50,17 +53,22 @@
         }
       ]
     });
+    
     var tokenInput = document.getElementById("token"),
         tokenIdx = location.search.indexOf("token"),
         tokenStart = tokenIdx + "token=".length,
         ampIdx = location.search.indexOf("&", tokenIdx);
+    
     if (ampIdx === -1) ampIdx = location.search.length;
+    
     var token = location.search.slice(tokenStart, ampIdx);
+    
     document.getElementById("resource-listing").addEventListener("click", function (e) {
       var target = e.target,
           repo = target.dataset.repo,
           page = target.dataset.page,
           url = "https://api.github.com/repos/RestonLimousine/" + repo + "/contents/" + page;
+      
       fetch(url, {
         headers: {
           "Authorization": "token " + token,
@@ -70,6 +78,7 @@
       }).then(response => response.text().then(function (text) {
         loadPage(JSON.parse(text));
       }));
+      
     }, true);
   </script>
 </body>
