@@ -49,7 +49,7 @@
       return function (e) {
         var query = e.target.value;
         if (query.length === 0) return;
-        for (var i = 0; i < pageContent.listing; i++) {
+        for (var i = 0; i < pageContent.listing.length; i++) {
           var item = pageContent.listing[i];
           console.log(insens(item.header), insens(query));
           if (insens(item.header).indexOf(insens(query)) === -1) {
