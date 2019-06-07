@@ -54,11 +54,11 @@
           if (insens(item.header) === insens(query))
             item.display = false;
         }
-        loadPage(pageContent);
+        loadPage(pageContent, query);
       }
     }
     
-    function loadPage (pageContent) {
+    function loadPage (pageContent, query) {
       container.textContent = "";
       var h1 = document.createElement("h1");
       h1.textContent = pageContent.title;
@@ -68,6 +68,7 @@
       search.className = "search";
       search.placeholder = "type here to search";
       search.addEventListener("input", filterListing(pageContent), true);
+      if (query) search.value = query;
       container.appendChild(search);
       var table = document.createElement("table");
       table.className = "listing-table";
