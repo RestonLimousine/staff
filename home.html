@@ -98,37 +98,74 @@
     
     var token = location.search.slice(tokenStart, ampIdx);
     
+    function applyTemplate (template, item) {
+      var copy;
+      switch (template.constructor) {
+        case Array:
+          copy = [];
+          for (var i = 0; i < template.length; i++) {
+            copy[i] = applyTemplate(template[i], item);
+          }
+        break;
+        case String:
+          copy = template.replace(/\{\{[^\}]+\}\}/, function (_, m) {
+            return item[m];
+          });
+        break;
+        default:
+          copy = {};
+          for (var prop in template) {
+            copy[prop] = applyTemplate(template[prop], item);
+          }
+      }
+      return copy;
+    }
+    
     var start = true;
     
     container.addEventListener("click", function (e) {
       var target = e.target,
           dataset = target.dataset;
-      if (start) {
-        start = false;
-        var repo = dataset.repo,
-            page = dataset.page,
-            url = "https://api.github.com/repos/RestonLimousine/" + repo + "/contents/" + page;
+      if (target.hasClass("listing-item")) {
+        if (start) {
+          start = false;
+          var repo = dataset.repo,
+              page = dataset.page,
+              url = "https://api.github.com/repos/RestonLimousine/" + repo + "/contents/" + page;
       
-        fetch(url, {
-          headers: {
-            "Authorization": "token " + token,
-            "User-Agent": "RestonLimousine",
-            "Accept": "application/vnd.github.v3.raw"
+          fetch(url, {
+            headers: {
+              "Authorization": "token " + token,
+              "User-Agent": "RestonLimousine",
+              "Accept": "application/vnd.github.v3.raw"
+            }
+          }).then(response => response.text().then(function (text) {
+            var data = JSON.parse(text);
+            if (!data.listing) {
+              data.listing = [];
+              data.listingData.forEach(function (item) {
+                data.listing.push(applyTemplate(data.listingTemplate, item));
+              });
+            }
+            data.listing.sort(function (x, y) {
+              var h1 = x.header,
+                  h2 = y.header;
+              return h1 > h2 ? -1 : h1 < h2 ? 1 : 0;
+            });
+            loadPage(data);
+          }));
+        } else {
+          switch (dataset.type) {
+            case "email":
+              (function (a) {
+                a.href = "mailto:" + dataset.data;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+              })(document.createElement("a"));
+            break;
+            case "link": window.open(dataset.data); break;
           }
-        }).then(response => response.text().then(function (text) {
-          loadPage(JSON.parse(text));
-        }));
-      } else {
-        switch (dataset.type) {
-          case "email":
-            (function (a) {
-              a.href = "mailto:" + dataset.data;
-              document.body.appendChild(a);
-              a.click();
-              a.remove();
-            })(document.createElement("a"));
-          break;
-          case "link": window.open(dataset.data); break;
         }
       }
     }, true);
