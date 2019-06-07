@@ -13,6 +13,9 @@
       background-color: rgba(200,200,200,0.5);
       cursor: pointer;
     }
+    .listing-item {
+      display: flex;
+    }
     .details {
       display: none;
     }
@@ -36,9 +39,20 @@
       container.appendChild(listingContainer);
       pageContent.listing.forEach(function (item) {
         var itemDiv = document.createElement("div");
-        itemDiv.textContent = item.header;
+        itemDiv.className = "listing-item";
+        var itemHeader = document.createElement("div");
+        itemHeader.className = "item-header";
+        itemHeader.textContent = item.header;
         for (var p in item.data) {
-          itemDiv.dataset[p] = item.data[p];
+          itemHeader.dataset[p] = item.data[p];
+        }
+        itemDiv.appendChild(itemHeader);
+        if (item.actions) {
+          item.actions.forEach(function (action) {
+            var actionDiv = document.createElement("div");
+            actionDiv.dataset = action;
+            itemDiv.appendChild(actionDiv);
+          });
         }
         if (item.details) {
           var detailsDiv = document.createElement("div");
