@@ -109,7 +109,10 @@
           loadPage(JSON.parse(text));
         }));
       } else {
-        target.classList.toggle("open");
+        switch (dataset.type) {
+          case "email":
+            window.open("mailto:" + dataset.recipients);
+        }
       }
     }, true);
     
