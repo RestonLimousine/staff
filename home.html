@@ -6,31 +6,17 @@
     h1 {
       text-align: center;
     }
-    .listing-container > div {
+    table {
+      border-collapse: collapse;
       border: 1px solid gray;
     }
-    .listing-item {
-      display: flex;
-    }
-    .listing-item > div {
+    td {
       padding: 10px;
+      /*border-right: 1px solid lightgray;*/
     }
-    .listing-item > div {
-      border-right: 1px solid lightgray;
-    }
-    .listing-item > div:last-child {
-      border: none;
-      flex-grow: 1;
-    }
-    .listing-item > div:hover {
+    td:hover {
       background-color: rgba(200,200,200,0.5);
       cursor: pointer;
-    }
-    .details {
-      display: none;
-    }
-    .open .details {
-      display: block;
     }
   </style>
 </head>
@@ -44,36 +30,31 @@
       var h1 = document.createElement("h1");
       h1.textContent = pageContent.title;
       container.appendChild(h1);
-      var listingContainer = document.createElement("div");
-      listingContainer.className = "listing-container";
-      container.appendChild(listingContainer);
+      var table = document.createElement("table");
+      table.className = "listing-table";
+      container.appendChild(table);
+      var tbody = document.createElement("tbody");
+      table.appendChild(tbody);
       pageContent.listing.forEach(function (item) {
-        var itemDiv = document.createElement("div");
-        itemDiv.className = "listing-item";
-        var itemHeader = document.createElement("div");
+        var tr = document.createElement("tr");
+        var itemHeader = document.createElement("td");
         itemHeader.className = "item-header item-action";
         itemHeader.textContent = item.header;
         for (var p in item.data) {
           itemHeader.dataset[p] = item.data[p];
         }
-        itemDiv.appendChild(itemHeader);
+        tr.appendChild(itemHeader);
         if (item.actions) {
           item.actions.forEach(function (action) {
-            var actionDiv = document.createElement("div");
-            actionDiv.className = "item-action";
-            actionDiv.dataset.type = action.type;
-            actionDiv.dataset.data = action.data;
-            actionDiv.textContent = action.text;
-            itemDiv.appendChild(actionDiv);
+            var actionTD = document.createElement("td");
+            actionTD.className = "item-action";
+            actionTD.dataset.type = action.type;
+            actionTD.dataset.data = action.data;
+            actionTD.textContent = action.text;
+            tr.appendChild(actionTD);
           });
         }
-        if (item.details) {
-          var detailsDiv = document.createElement("div");
-          detailsDiv.className = "details";
-          detailsDiv.textContent = item.details;
-          itemDiv.appendChild(detailsDiv);
-        }
-        listingContainer.appendChild(itemDiv);
+        tbody.appendChild(tr);
       });
     }
     
@@ -109,9 +90,7 @@
           }
         break;
         case String:
-          console.log(template);
           copy = template.replace(/\{\{(\w+)\}\}/, function (_, m) {
-            console.log(m, item);
             return item[m];
           });
         break;
@@ -153,7 +132,7 @@
             data.listing.sort(function (x, y) {
               var h1 = x.header,
                   h2 = y.header;
-              return h1 > h2 ? -1 : h1 < h2 ? 1 : 0;
+              return h1 > h2 ? 1 : h1 < h2 ? -1 : 0;
             });
             loadPage(data);
           }));
