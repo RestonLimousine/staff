@@ -8,43 +8,41 @@
     <h2>Choose a Resource:</h2>
     <ul id="resource-listing">
       <li>
-        <a href="javascript:void(0)" data-repo="clients" data-page="listing.html">Clients</a>
+        <a href="javascript:void(0)" data-repo="clients" data-page="listing">Clients</a>
       </li>
     </ul>
   </div>
   <script>
     var listingContainer = document.getElementById("listing-container");
     function loadListing (listing) {
-      var listingDiv = listingDiv.children[0];
+      listingContainer.textContent = "";
       listing.forEach(function (item) {
         var itemDiv = document.createElement("div");
         itemDiv.textContent = item;
-        listingDiv.appendChild(itemDiv);
+        listingContainer.appendChild(itemDiv);
       });
     }
+    var tokenInput = document.getElementById("token"),
+        tokenIdx = location.search.indexOf("token"),
+        tokenStart = tokenIdx + "token=".length,
+        ampIdx = location.search.indexOf("&", tokenIdx);
+    if (ampIdx === -1) ampIdx = location.search.length;
+    var token = location.search.slice(tokenStart, ampIdx);
+    document.getElementById("resource-listing").addEventListener("click", function (e) {
+      var target = e.target,
+          repo = target.dataset.repo,
+          page = target.dataset.page,
+          url = "https://api.github.com/repos/RestonLimousine/" + repo + "/contents/" + page;
+      fetch(url, {
+        headers: {
+          "Authorization": "token " + token,
+          "User-Agent": "RestonLimousine",
+          "Accept": "application/vnd.github.v3.raw"
+        }
+      }).then(response => response.text().then(function (text) {
+        loadListing(text.split(/\n+/));
+      }));
+    }, true);
   </script>
-<script>
-  var tokenInput = document.getElementById("token"),
-      tokenIdx = location.search.indexOf("token"),
-      tokenStart = tokenIdx + "token=".length,
-      ampIdx = location.search.indexOf("&", tokenIdx);
-  if (ampIdx === -1) ampIdx = location.search.length;
-  var token = location.search.slice(tokenStart, ampIdx);
-  document.getElementById("resource-listing").addEventListener("click", function (e) {
-    var target = e.target,
-        repo = target.dataset.repo,
-        page = target.dataset.page,
-        url = "https://api.github.com/repos/RestonLimousine/" + repo + "/contents/" + page;
-    fetch(url, {
-      headers: {
-        "Authorization": "token " + token,
-        "User-Agent": "RestonLimousine",
-        "Accept": "application/vnd.github.v3.raw"
-      }
-    }).then(response => response.text().then(function (text) {
-      listingContainer.innerHTML = text;
-    }));
-  }, true);
-</script>
 </body>
 </html>
