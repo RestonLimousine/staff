@@ -87,9 +87,7 @@
     
     function openModal (data) {
       modal.textContent = "hello world";
-      modalContainer.classList.add("modal-open");
-      modalContainer.offsetWidth;
-      modal.offsetWidth;
+      setTimeout(function () { modalContainer.classList.add("modal-open"); }, 1);
     }
     
     function insens (s) {
