@@ -89,7 +89,7 @@
       modal.innerHTML = "";
       for (var prop in data) {
         var h6 = document.createElement("h6");
-        h6.textContent = prop;
+        h6.textContent = prop.replace(/_/, " ");
         modal.appendChild(h6);
         var input = document.createElement("input");
         input.type = "text";
@@ -185,7 +185,8 @@
         itemHeader.dataset.header = item.header;
         if (item.data) {
           for (var prop in item.data) {
-            itemHeader.dataset[prop] = item.data[prop];
+            var dataName = prop.replace(/ /, "_");
+            itemHeader.dataset[dataName] = item.data[prop];
           }
         }
         tr.appendChild(itemHeader);
