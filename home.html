@@ -54,8 +54,8 @@
     }
     .modal {
       position: absolute;
-      bottom: 100%;
-      transition: bottom 2s linear;
+      transform: translateY(-50vh);
+      transition: transform 2s linear;
       padding: 50px;
       background-color: white;
     }
@@ -64,7 +64,7 @@
       background-color: rgb(200,200,200,0.5);
     }
     .modal-open .modal {
-      bottom: auto;
+      transform: translateY(0);
     }
   </style>
 </head>
