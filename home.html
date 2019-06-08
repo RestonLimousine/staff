@@ -122,7 +122,7 @@
         h4.textContent = prop.replace(/_/g, " ") + ":";
         modal.appendChild(h4);
         var dataDiv = document.createElement("div");
-        dataDiv.textContent = data[prop];
+        if (data[prop]) dataDiv.textContent = data[prop];
         modal.appendChild(dataDiv);
       }
       modalContainer.classList.add("modal-open");
