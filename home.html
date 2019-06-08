@@ -66,14 +66,12 @@
       height: 100%;
       transition: background-color 2s linear;
     }
-    /*
     .modal-open .modal-screen {
       background-color: rgb(200,200,200,0.5);
     }
     .modal-open .modal {
       transform: translateY(0);
     }
-    */
   </style>
 </head>
 <body>
@@ -88,9 +86,18 @@
         modal = document.getElementById("modal");
     
     function openModal (data) {
-      modal.textContent = "hello world";
+      modal.innerHTML = "";
+      for (var prop in data) {
+        var h4 = document.createElement("h4");
+        h4.textContent = prop;
+        modal.appendChild(h4);
+        var input = document.createElement("input");
+        input.type = "text";
+        input.readonly = "readonly";
+        input.value = data[prop];
+        modal.appendChild(input):
+      }
       modalContainer.classList.add("modal-open");
-      modal.style.transform = "translateY(0)";
     }
     
     function insens (s) {
