@@ -182,13 +182,12 @@
         var itemHeader = document.createElement("td");
         itemHeader.className = "item-header item-action";
         itemHeader.textContent = item.header;
-        for (var p in item.data) {
-          itemHeader.dataset[p] = item.data[p];
-        }
+        itemHeader.dataset.header = item.header;
         tr.appendChild(itemHeader);
         if (item.actions) {
           for (var i = 0; i < item.actions.length; i++) {
             var action = item.actions[i];
+            itemHeader.dataset[action.text] = action.data;
             if (action.type === "email") {
               appendActionTD(tr, action);
               appendActionTD(tr, copyObj(action, {
