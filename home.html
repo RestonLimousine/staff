@@ -70,10 +70,13 @@
       transition: background-color 2s linear;
     }
     .modal-open .modal-screen {
-      background-color: rgb(200,200,200,0.5);
+      background-color: rgb(100,100,100,0.5);
     }
     .modal-open .modal {
       transform: translateY(0);
+    }
+    .close-modal {
+      text-align: right;
     }
   </style>
 </head>
@@ -91,6 +94,16 @@
     function openModal (target) {
       var data = target.dataset;
       modal.innerHTML = "";
+      var closeDiv = document.createElement("div"),
+          closeA = document.createElement("a");
+      closeDiv.className = "close-modal";
+      closeA.href = "javascript:void(0)";
+      closeA.innerHTML = "&times;";
+      closeA.addEventListener("click", function () {
+        modalContainer.classList.remove("modal-open");
+      }, true);
+      closeDiv.appendChild(closeA);
+      modal.appendChild(closeDiv);
       var h3 = document.createElement("h3");
       h3.textContent = target.textContent;
       modal.appendChild(h3);
