@@ -105,7 +105,7 @@
           closeA = document.createElement("a");
       closeDiv.className = "close-modal";
       closeA.href = "javascript:void(0)";
-      closeA.innerHTML = "&times;";
+      closeA.textContent = "close";
       closeA.addEventListener("click", function () {
         modalContainer.classList.remove("modal-open");
       }, true);
