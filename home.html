@@ -41,12 +41,43 @@
       background-color: rgba(200,200,200,0.5);
       cursor: pointer;
     }
+    #modal-container {
+      display: none;
+      position:fixed;
+      top:0;
+      right:0;
+      bottom:0;
+      left:0;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal {
+      position: absolute;
+      bottom: 100%;
+      transition: bottom 2s linear;
+    }
+    .modal-open {
+      display: flex;
+    }
+    .modal-open .modal {
+      bottom: auto;
+    }
   </style>
 </head>
 <body>
   <div id="container"></div>
+  <div id="modal-container">
+    <div id="modal" class="modal"></div>
+  </div>
   <script>
-    var container = document.getElementById("container");
+    var container = document.getElementById("container"),
+        modalContainer = document.getElementById("modal-container"),
+        modal = document.getElementById("modal");
+    
+    function openModal (data) {
+      modal.textContent = "hello world";
+      modalContainer.classList.add("modal-open");
+    }
     
     function insens (s) {
       return s.toLowerCase().replace(/\s/, '');
@@ -138,9 +169,7 @@
           for (var i = 0; i < item.actions.length; i++) {
             var action = item.actions[i];
             if (action.type === "email") {
-              appendActionTD(tr, copyObj(action, {
-                text: action.text + " (Desktop)"
-              }));
+              appendActionTD(tr, action);
               appendActionTD(tr, copyObj(action, {
                 text: action.text + " (iPhone)",
                 data: action.data.replace(/;/, ",")
@@ -209,6 +238,8 @@
             });
             loadPage(data);
           }));
+        } else if (target.classList.contains("item-header")) {
+          openModal(dataset);
         } else {
           switch (dataset.type) {
             case "email":
