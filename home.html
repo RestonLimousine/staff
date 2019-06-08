@@ -88,12 +88,12 @@
     function openModal (data) {
       modal.innerHTML = "";
       for (var prop in data) {
-        var h4 = document.createElement("h4");
-        h4.textContent = prop;
-        modal.appendChild(h4);
+        var h6 = document.createElement("h6");
+        h6.textContent = prop;
+        modal.appendChild(h6);
         var input = document.createElement("input");
         input.type = "text";
-        input.readonly = "readonly";
+        input.readOnly = true;
         input.value = data[prop];
         modal.appendChild(input);
       }
