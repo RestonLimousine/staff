@@ -66,12 +66,14 @@
       height: 100%;
       transition: background-color 2s linear;
     }
+    /*
     .modal-open .modal-screen {
       background-color: rgb(200,200,200,0.5);
     }
     .modal-open .modal {
       transform: translateY(0);
     }
+    */
   </style>
 </head>
 <body>
@@ -87,7 +89,8 @@
     
     function openModal (data) {
       modal.textContent = "hello world";
-      setTimeout(function () { modalContainer.classList.add("modal-open"); }, 1);
+      modalContainer.classList.add("modal-open");
+      modal.style.transform = "translateY(0)";
     }
     
     function insens (s) {
