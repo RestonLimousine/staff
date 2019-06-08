@@ -185,15 +185,14 @@
         itemHeader.dataset.header = item.header;
         if (item.data) {
           for (var prop in item.data) {
-            var dataName = prop.replace(/ /, "_");
-            itemHeader.dataset[dataName] = item.data[prop];
+            itemHeader.dataset[prop] = item.data[prop];
           }
         }
         tr.appendChild(itemHeader);
         if (item.actions) {
           for (var i = 0; i < item.actions.length; i++) {
             var action = item.actions[i];
-            itemHeader.dataset[action.text] = action.data;
+            itemHeader.dataset[action.text.replace(/ /, "_")] = action.data;
             if (action.type === "email") {
               appendActionTD(tr, action);
               appendActionTD(tr, copyObj(action, {
