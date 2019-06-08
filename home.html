@@ -88,9 +88,13 @@
         modalContainer = document.getElementById("modal-container"),
         modal = document.getElementById("modal");
     
-    function openModal (data) {
+    function openModal (target) {
+      var data = target.dataset;
       modal.innerHTML = "";
       for (var prop in data) {
+        var h3 = document.createElement("h3");
+        h3.textContent = target.textContent;
+        modal.appendChild(h3);
         var h4 = document.createElement("h4");
         h4.textContent = prop.replace(/_/g, " ");
         modal.appendChild(h4);
@@ -185,7 +189,6 @@
         var itemHeader = document.createElement("td");
         itemHeader.className = "item-header item-action";
         itemHeader.textContent = item.header;
-        itemHeader.dataset.header = item.header;
         if (item.data) {
           for (var prop in item.data) {
             itemHeader.dataset[prop] = item.data[prop];
@@ -267,7 +270,7 @@
             loadPage(data);
           }));
         } else if (target.classList.contains("item-header")) {
-          openModal(dataset);
+          openModal(target);
         } else {
           switch (dataset.type) {
             case "email":
