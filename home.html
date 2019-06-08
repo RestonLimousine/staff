@@ -96,18 +96,11 @@
       modal.appendChild(h3);
       for (var prop in data) {
         var h4 = document.createElement("h4");
-        h4.textContent = prop.replace(/_/g, " ");
+        h4.textContent = prop.replace(/_/g, " ") + ":";
         modal.appendChild(h4);
         var dataDiv = document.createElement("div");
         dataDiv.textContent = data[prop];
         modal.appendChild(dataDiv);
-        /*
-        var input = document.createElement("input");
-        input.type = "text";
-        input.disabled = true;
-        input.value = data[prop];
-        modal.appendChild(input);
-        */
       }
       modalContainer.classList.add("modal-open");
     }
