@@ -129,7 +129,7 @@
     }
     
     function insens (s) {
-      return s.toLowerCase().replace(/\s/, '');
+      return s.toLowerCase().replace(/\s/g, '');
     }
     
     function filterListing (pageContent) {
@@ -157,7 +157,7 @@
           }
         break;
         case String:
-          copy = template.replace(/\{\{(\w+)\}\}/, function (_, m) {
+          copy = template.replace(/\{\{(\w+)\}\}/g, function (_, m) {
             return item[m];
           });
         break;
@@ -224,7 +224,7 @@
               appendActionTD(tr, action);
               appendActionTD(tr, copyObj(action, {
                 text: action.text + " (iPhone)",
-                data: action.data.replace(/;/, ",")
+                data: action.data.replace(/;/g, ",")
               }));
             } else {
               appendActionTD(tr, action);
