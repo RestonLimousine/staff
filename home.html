@@ -94,6 +94,13 @@
       tr.appendChild(actionTD);
     }
     
+    function copyObject (obj1, obj2) {
+      for (var prop in obj1) {
+        if (!(prop in obj2)) obj2[prop] = obj1[prop];
+      }
+      return obj2;
+    }
+    
     function loadPage (pageContent, query) {
       container.textContent = "";
       var h1 = document.createElement("h1");
@@ -125,13 +132,16 @@
         if (item.actions) {
           for (var i = 0; i < item.actions.length; i++) {
             var action = item.actions[i];
-            appendActionTD(tr, action);
             if (action.type === "email") {
-              appendActionTD(tr, {
-                type: "email",
+              appendActionTD(tr, copyObj(action, {
+                text: action.text + " (Desktop)";
+              }));
+              appendActionTD(tr, copyObj(action, {
                 text: action.text + " (iPhone)",
                 data: action.data.replace(/;/, ",")
-              });
+              }));
+            } else {
+              appendActionTD(tr, action);
             }
           }
         }
