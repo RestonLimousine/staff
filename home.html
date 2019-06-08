@@ -62,6 +62,38 @@
       }
     }
     
+    function applyTemplate (template, item) {
+      var copy;
+      switch (template.constructor) {
+        case Array:
+          copy = [];
+          for (var i = 0; i < template.length; i++) {
+            copy[i] = applyTemplate(template[i], item);
+          }
+        break;
+        case String:
+          copy = template.replace(/\{\{(\w+)\}\}/, function (_, m) {
+            return item[m];
+          });
+        break;
+        default:
+          copy = {};
+          for (var prop in template) {
+            copy[prop] = applyTemplate(template[prop], item);
+          }
+      }
+      return copy;
+    }
+    
+    function appendActionTD (tr, action) {
+      var actionTD = document.createElement("td");
+      actionTD.className = "item-action";
+      actionTD.dataset.type = action.type;
+      actionTD.dataset.data = action.data;
+      actionTD.textContent = action.text;
+      tr.appendChild(actionTD);
+    }
+    
     function loadPage (pageContent, query) {
       container.textContent = "";
       var h1 = document.createElement("h1");
@@ -91,14 +123,17 @@
         }
         tr.appendChild(itemHeader);
         if (item.actions) {
-          item.actions.forEach(function (action) {
-            var actionTD = document.createElement("td");
-            actionTD.className = "item-action";
-            actionTD.dataset.type = action.type;
-            actionTD.dataset.data = action.data;
-            actionTD.textContent = action.text;
-            tr.appendChild(actionTD);
-          });
+          for (var i = 0; i < item.actions.length; i++) {
+            var action = item.actions[i]);
+            appendActionTD(tr, action);
+            if (action.type === "email") {
+              appendActionTD(tr, {
+                type: "email",
+                text: action.text + " (iPhone)",
+                data: action.data.replace(/;/, ",")
+              });
+            }
+          }
         }
         tbody.appendChild(tr);
       });
@@ -125,29 +160,6 @@
     if (ampIdx === -1) ampIdx = location.search.length;
     
     var token = location.search.slice(tokenStart, ampIdx);
-    
-    function applyTemplate (template, item) {
-      var copy;
-      switch (template.constructor) {
-        case Array:
-          copy = [];
-          for (var i = 0; i < template.length; i++) {
-            copy[i] = applyTemplate(template[i], item);
-          }
-        break;
-        case String:
-          copy = template.replace(/\{\{(\w+)\}\}/, function (_, m) {
-            return item[m];
-          });
-        break;
-        default:
-          copy = {};
-          for (var prop in template) {
-            copy[prop] = applyTemplate(template[prop], item);
-          }
-      }
-      return copy;
-    }
     
     var start = true;
     
