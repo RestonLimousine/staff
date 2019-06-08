@@ -183,6 +183,11 @@
         itemHeader.className = "item-header item-action";
         itemHeader.textContent = item.header;
         itemHeader.dataset.header = item.header;
+        if (item.data) {
+          for (var prop in item.data) {
+            itemHeader.dataset[prop] = item.data[prop];
+          }
+        }
         tr.appendChild(itemHeader);
         if (item.actions) {
           for (var i = 0; i < item.actions.length; i++) {
