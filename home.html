@@ -50,7 +50,6 @@
       left:0;
       align-items: center;
       justify-content: center;
-      transition: background-color 2s linear;
     }
     .modal {
       position: absolute;
@@ -61,6 +60,11 @@
     }
     .modal-open {
       display: flex;
+    }
+    .modal-screen {
+      transition: background-color 2s linear;
+    }
+    .modal-open .modal-screen {
       background-color: rgb(200,200,200,0.5);
     }
     .modal-open .modal {
@@ -71,6 +75,7 @@
 <body>
   <div id="container"></div>
   <div id="modal-container" class="modal-container">
+    <div class="modal-screen"></div>
     <div id="modal" class="modal"></div>
   </div>
   <script>
