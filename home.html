@@ -225,7 +225,7 @@
     
     function downloadData (listing) {
       var wb = XLSX.utils.book_new(),
-          headers = ["header"],
+          headers = ["Item"],
           ws_data = [headers];
       listing[0].actions.forEach(function (action) {
         headers.push(action.text);
