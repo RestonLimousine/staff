@@ -225,16 +225,16 @@
     
     function downloadData (listing) {
       var wb = XLSX.utils.book_new(),
-          headers = [],
+          headers = ["header"],
           ws_data = [];
-      for (var prop in listing[0]) {
+      for (var prop in listing[0].actions) {
         headers.push(prop);
       }
       listing.forEach(function (item) {
         if (item.display === false) return;
         var row = [];
         headers.forEach(function (header) {
-          row.push(item[header]);
+          row.push(item[header] || item.actions[header]);
         });
         ws_data.push(row);
       });
