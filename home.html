@@ -133,6 +133,7 @@
       modal.innerHTML = "";
       var h3 = document.createElement("h3");
       h3.textContent = prmpt;
+      modal.appendChild(h3);
       var rspDiv = document.createElement("div"),
           yes = document.createElement("button"),
           no = document.createElement("button"),
@@ -143,6 +144,7 @@
       rspDiv.appendChild(yes);
       rspDiv.appendChild(no);
       rspDiv.appendChild(cancel);
+      modal.appendChild(rspDiv);
       yes.addEventListener("click", function () {
         modalContainer.classList.remove("modal-open");
         cb(true);
