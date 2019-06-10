@@ -129,6 +129,34 @@
       modalContainer.classList.add("modal-open");
     }
     
+    function openConfirmModal (prmpt, cb) {
+      modal.innerHTML = "";
+      var h3 = document.createElement("h3");
+      h3.textContent = prmpt;
+      var rspDiv = document.createElement("div"),
+          yes = document.createElement("button"),
+          no = document.createElement("button"),
+          cancel = document.createElement("button");
+      yes.textContent = "Yes";
+      no.textContent = "No";
+      cancel.textContent = "Cancel";
+      rspDiv.appendChild(yes);
+      rspDiv.appendChild(no);
+      rspDiv.appendChild(cancel);
+      yes.addEventListener("click", function () {
+        modalContainer.classList.remove("modal-open");
+        cb(true);
+      }, true);
+      no.addEventListener("click", function () {
+        modalContainer.classList.remove("modal-open");
+        cb(false);
+      }, true);
+      cancel.addEventListener("click", function () {
+        modalContainer.classList.remove("modal-open");
+      }, true);
+      modalContainer.classList.add("modal-open");
+    }
+    
     function insens (s) {
       return s.toLowerCase().replace(/\s/g, '');
     }
@@ -296,14 +324,15 @@
         } else {
           switch (dataset.type) {
             case "email":
-              (function (a) {
-                var isIphone = confirm("Are you sending this email from an iPhone? Click \"OK\" for yes, \"Cancel\" for no."),
-                    emails = isIphone ? dataset.data.replace(/;/g, ",") : dataset.data;
-                a.href = "mailto:" + emails;
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-              })(document.createElement("a"));
+              openConfirmModal("Are you sending this email from an iPhone?", function (isIphone) {
+                (function (a) {
+                  var emails = isIphone ? dataset.data.replace(/;/g, ",") : dataset.data;
+                  a.href = "mailto:" + emails;
+                  document.body.appendChild(a);
+                  a.click();
+                  a.remove();
+                })(document.createElement("a"));
+              });
             break;
             case "link": window.open(dataset.data); break;
           }
