@@ -221,7 +221,7 @@
           for (var i = 0; i < item.actions.length; i++) {
             var action = item.actions[i];
             itemHeader.dataset[action.text.replace(/ /g, "_")] = action.data;
-            if (action.type === "email") {
+            if (false && action.type === "email") {
               appendActionTD(tr, action);
               appendActionTD(tr, copyObj(action, {
                 text: action.text + " (iPhone)",
@@ -297,7 +297,9 @@
           switch (dataset.type) {
             case "email":
               (function (a) {
-                a.href = "mailto:" + dataset.data;
+                var isIphone = confirm("Are you sending this email from an iPhone?"),
+                    emails = isIphone ? dataset.data.replace(/;/g, ",") : dataset.data;
+                a.href = "mailto:" + emails;
                 document.body.appendChild(a);
                 a.click();
                 a.remove();
