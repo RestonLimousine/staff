@@ -240,10 +240,12 @@
       return obj2;
     }
     
-    function downloadData (listing) {
+    function downloadData (pageContent) {
       var wb = XLSX.utils.book_new(),
           headers = ["Item"],
-          ws_data = [headers];
+          ws_data = [headers],
+          listing = pageContent.listing,
+          title = pageContent.title.toLowerCase().replace(/ /g, "_");
       listing[0].actions.forEach(function (action) {
         headers.push(action.text);
       });
@@ -256,8 +258,8 @@
         ws_data.push(row);
       });
       var ws = XLSX.utils.aoa_to_sheet(ws_data);
-      XLSX.utils.book_append_sheet(wb, ws, "data");
-      XLSX.writeFile(wb, 'out.xlsx');
+      XLSX.utils.book_append_sheet(wb, ws, title);
+      XLSX.writeFile(wb, title + '.xlsx');
     }
     
     function loadPage (pageContent, query) {
@@ -301,7 +303,7 @@
       });
       h1.addEventListener("click", function () {
         openConfirmModal("Download Excel Spreadsheet?", function (answer) {
-          if (answer) downloadData(pageContent.listing);
+          if (answer) downloadData(pageContent);
         });
       }, true);
     }
