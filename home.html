@@ -81,7 +81,9 @@
         background-color: rgba(50,50,50,0.5);
       }
       .no-data {
-        background-color: rgba(50,50,50,0.5);
+        background-color: rgba(100,100,100,0.5);
+      }
+      .no-data:hover {
         cursor: not-allowed;
       }
       .modal-open .modal {
@@ -216,7 +218,7 @@
       var actionTD = document.createElement("td");
       actionTD.className = "item-action";
       actionTD.dataset.type = action.type;
-      actionTD.dataset.data = action.data;
+      actionTD.dataset.data = action.data || "";
       actionTD.textContent = action.text;
       if (!action.data) actionTD.className += " no-data";
       tr.appendChild(actionTD);
