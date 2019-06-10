@@ -366,7 +366,7 @@
         } else if (dataset.data) {
           switch (dataset.type) {
             case "email":
-              openConfirmModal("Are you sending this email from an iPhone?", function (isIphone) {
+              openConfirmModal("Are you sending this email from the iPhone Mail app?", function (isIphone) {
                 (function (a) {
                   var emails = isIphone ? dataset.data.replace(/;/g, ",") : dataset.data;
                   a.href = "mailto:" + emails;
