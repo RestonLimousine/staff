@@ -294,7 +294,9 @@
         tbody.appendChild(tr);
       });
       h1.addEventListener("click", function () {
-        downloadData(pageContent.listing);
+        openConfirmModal("Download Excel Spreadsheet?", function (answer) {
+          if (answer) downloadData(pageContent.listing);
+        });
       }, true);
     }
     
