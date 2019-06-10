@@ -336,8 +336,8 @@
               });
             }
             data.listing.sort(function (x, y) {
-              var h1 = x.header,
-                  h2 = y.header;
+              var h1 = insens(x.header),
+                  h2 = insens(y.header);
               return h1 > h2 ? 1 : h1 < h2 ? -1 : 0;
             });
             loadPage(data);
