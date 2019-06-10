@@ -199,8 +199,9 @@
         break;
         case String:
           copy = template.replace(/\{\{(\w+)\}\}/g, function (_, m) {
-            return item[m];
+            return item[m] || "";
           });
+          if (copy === "") copy = null;
         break;
         default:
           copy = {};
