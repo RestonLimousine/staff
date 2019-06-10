@@ -78,7 +78,11 @@
         transition: background-color 2s linear;
       }
       .modal-open .modal-screen {
-        background-color: rgb(100,100,100,0.5);
+        background-color: rgba(50,50,50,0.5);
+      }
+      .no-data {
+        background-color: rgba(50,50,50,0.5);
+        cursor: not-allowed;
       }
       .modal-open .modal {
         transform: translateY(0);
@@ -213,6 +217,7 @@
       actionTD.dataset.type = action.type;
       actionTD.dataset.data = action.data;
       actionTD.textContent = action.text;
+      if (!action.data) actionTD.className += " no-data";
       tr.appendChild(actionTD);
     }
     
@@ -344,7 +349,7 @@
           }));
         } else if (target.classList.contains("item-header")) {
           openModal(target);
-        } else {
+        } else if (dataset.data) {
           switch (dataset.type) {
             case "email":
               openConfirmModal("Are you sending this email from an iPhone?", function (isIphone) {
