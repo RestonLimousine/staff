@@ -297,7 +297,7 @@
           switch (dataset.type) {
             case "email":
               (function (a) {
-                var isIphone = confirm("Are you sending this email from an iPhone?"),
+                var isIphone = confirm("Are you sending this email from an iPhone? Click \"OK\" for yes, \"Cancel\" for no."),
                     emails = isIphone ? dataset.data.replace(/;/g, ",") : dataset.data;
                 a.href = "mailto:" + emails;
                 document.body.appendChild(a);
