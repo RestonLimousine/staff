@@ -258,11 +258,10 @@
       if (typeof action.data !== "string") {
         switch (action.type) {
           case "email": action.data = getPropertyList(action.data, "email", "; "); break;
-          case "phone": action.data = getPropertyList(action.data, "phone", "; "); break;
         }
       }
-      if (action.data === "") action.data = null;
-      if (!action.data) actionTD.className += " no-data";
+      if (!action.data || (action.data.length === 0)) 
+        actionTD.className += " no-data";
       doAction(actionTD, action);
       tr.appendChild(actionTD);
     }
