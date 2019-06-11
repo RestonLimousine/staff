@@ -261,7 +261,10 @@
             action.data = action.data.filter(function (contact) {
               return !!contact.email;
             });
-            action.displayData = getPropertyList(action.data, "email", "; ");
+            action.displayData = action.data.map(function (contact) {
+              var data = contact.email;
+              return contact.name ? contact.name + " <" + data + ">" : data;
+            }).join("; ");
           break;
             case "phone": action.data = action.data.filter(function (contact) {
               return !!contact.phone;
