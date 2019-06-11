@@ -145,18 +145,19 @@
       modalContainer.classList.add("modal-open");
     }
     
-    function showDataInModal (target) {
-      var data = target.dataset;
+    function showDataInModal (data) {
       var h3 = document.createElement("h3"),
           content = [h3];
-      h3.textContent = target.textContent;
+      h3.textContent = target.header;
       for (var prop in data) {
-        var h4 = document.createElement("h4");
-        h4.textContent = prop.replace(/_/g, " ") + ":";
-        content.push(h4);
-        var dataDiv = document.createElement("div");
-        dataDiv.textContent = data[prop];
-        content.push(dataDiv);
+        if (prop !== "header") {
+          var h4 = document.createElement("h4");
+          h4.textContent = prop + ":";
+          content.push(h4);
+          var dataDiv = document.createElement("div");
+          dataDiv.textContent = data[prop];
+          content.push(dataDiv);
+        }
       }
       openModal(content);
     }
@@ -298,8 +299,9 @@
       table.appendChild(tbody);
       pageContent.listing.forEach(function (item) {
         if (item.display === false) return;
-        var tr = document.createElement("tr");
-        var itemHeader = document.createElement("td");
+        var tr = document.createElement("tr"),
+            itemHeader = document.createElement("td"),
+            headerAction = {header: item.header};
         itemHeader.className = "item-header item-action";
         itemHeader.textContent = item.header;
         if (item.data) {
@@ -308,14 +310,14 @@
           }
         }
         tr.appendChild(itemHeader);
-        doAction(itemHeader, itemHeader.dataset);
         if (item.actions) {
           for (var i = 0; i < item.actions.length; i++) {
             var action = item.actions[i];
-            itemHeader.dataset[action.text.replace(/ /g, "_")] = action.data;
+            headerAction[action.text] = action.data;
             appendActionTD(tr, action);
           }
         }
+        doAction(itemHeader, headerAction);
         tbody.appendChild(tr);
       });
       h1.addEventListener("click", function () {
@@ -380,7 +382,7 @@
               loadPage(data);
             }));
           } else if (target.classList.contains("item-header")) {
-            showDataInModal(target);
+            showDataInModal(action);
           } else if (action.data) {
             switch (action.type) {
               case "email":
