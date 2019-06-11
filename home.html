@@ -171,10 +171,7 @@
           h4.textContent = prop + ":";
           content.push(h4);
           var dataDiv = document.createElement("div"),
-              dataVal = data[prop][1];
-          switch (data[prop][0]) {
-            case "email": dataVal = getPropertyList(dataVal, "email", "; ");
-          }
+              dataVal = data[prop];
           dataDiv.textContent = dataVal;
           content.push(dataDiv);
         }
@@ -258,6 +255,13 @@
       var actionTD = document.createElement("td");
       actionTD.className = "item-action";
       actionTD.textContent = action.text;
+      if (typeof action.data !== "string") {
+        switch (action.type) {
+          case "email": action.data = getPropertyList(action.data, "email", "; "); break;
+          case "phone": action.data = getPropertyList(action.data, "phone", "; "); break;
+        }
+      }
+      if (action.data === "") action.data = null;
       if (!action.data) actionTD.className += " no-data";
       doAction(actionTD, action);
       tr.appendChild(actionTD);
@@ -283,12 +287,7 @@
         if (item.display === false) return;
         var row = [item.header];
         item.actions.forEach(function (action) {
-          var data = action.data;
-          switch (action.type) {
-            case "email": data = getPropertyList(data, "email", "; ");
-            case "phone": data = getPropertyList(data, "phone", "; ");
-          }
-          row.push(data);
+          row.push(action.data);
         });
         ws_data.push(row);
       });
@@ -331,8 +330,8 @@
         if (item.actions) {
           for (var i = 0; i < item.actions.length; i++) {
             var action = item.actions[i];
-            headerAction[action.text] = [action.type, action.data];
             appendActionTD(tr, action);
+            headerAction[action.text] = action.data;
           }
         }
         doAction(itemHeader, headerAction);
@@ -387,7 +386,8 @@
               if (!data.listing) {
                 data.listing = [];
                 data.listingData.forEach(function (item) {
-                  data.listing.push(applyTemplate(data.listingTemplate, item));
+                  item = applyTemplate(data.listingTemplate, item);
+                  data.listing.push(item);
                 });
               }
               data.listing.sort(function (x, y) {
@@ -404,9 +404,9 @@
               case "email":
                 openConfirmModal("Are you sending this email from the iPhone Mail app?", function (isIphone) {
                   (function (a) {
-                    var delim = isIphone ? ", " : "; ",
-                        emails = getPropertyList(action.data, "email", delim);
-                    a.href = "mailto:" + emails;
+                    // var delim = isIphone ? ", " : "; ",
+                    //    emails = getPropertyList(action.data, "email", delim);
+                    a.href = "mailto:" + action.data;
                     document.body.appendChild(a);
                     a.click();
                     a.remove();
