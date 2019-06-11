@@ -257,10 +257,17 @@
       actionTD.textContent = action.text;
       if (typeof action.data !== "string") {
         switch (action.type) {
-          case "email": action.data = getPropertyList(action.data, "email", "; "); break;
-          case "phone": action.data = action.data.filter(function (contact) {
-            return !!contact.phone;
-          });
+          case "email":
+            action.data = action.data.filter(function (contact) {
+              return !!contact.email;
+            });
+            action.displayData = getPropertyList(action.data, "email", "; ");
+          break;
+            case "phone": action.data = action.data.filter(function (contact) {
+              return !!contact.phone;
+            });
+            action.displayData = getPropertyList(action.data, "phone", "; ");
+          break;
         }
       }
       if (!action.data || (action.data.length === 0)) 
@@ -289,7 +296,7 @@
         if (item.display === false) return;
         var row = [item.header];
         item.actions.forEach(function (action) {
-          row.push(action.data);
+          row.push(action.displayData);
         });
         ws_data.push(row);
       });
@@ -333,7 +340,7 @@
           for (var i = 0; i < item.actions.length; i++) {
             var action = item.actions[i];
             appendActionTD(tr, action);
-            headerAction[action.text] = action.data;
+            headerAction[action.text] = action.displayData;
           }
         }
         doAction(itemHeader, headerAction);
@@ -406,7 +413,7 @@
               case "email":
                 openConfirmModal("Are you sending this email from the iPhone Mail app?", function (isIphone) {
                   (function (a) {
-                    var emails = isIphone ? action.data.replace(/;/g, ",") : action.data;
+                    var emails = getPropertyList(action.data, "email", isIphone ? ", " : "; ");
                     a.href = "mailto:" + emails;
                     document.body.appendChild(a);
                     a.click();
