@@ -140,6 +140,11 @@
     function openModal (content) {
       modalBody.innerHTML = "";
       content.forEach(function (el) {
+        if (typeof el === "string") {
+          var div = document.createElement("div");
+          div.textContent = el;
+          el = div;
+        }
         modalBody.appendChild(el);
       });
       modalContainer.classList.add("modal-open");
@@ -239,8 +244,6 @@
     function appendActionTD (tr, action) {
       var actionTD = document.createElement("td");
       actionTD.className = "item-action";
-      actionTD.dataset.type = action.type;
-      actionTD.dataset.data = action.data || "";
       actionTD.textContent = action.text;
       if (!action.data) actionTD.className += " no-data";
       doAction(actionTD, action);
@@ -331,7 +334,8 @@
           header: "Clients",
           data: {
             repo: "clients",
-            page: "listing.json"
+            page: "listing.json",
+            init: true
           }
         }
       ]
@@ -346,13 +350,10 @@
     
     var token = location.search.slice(tokenStart, ampIdx);
     
-    var start = true;
-    
     function doAction (target, action) {
       target.addEventListener("click", function (e) {
         if (target.classList.contains("item-action")) {
-          if (start) {
-            start = false;
+          if (action.init) {
             var repo = action.repo,
                 page = action.page,
                 url = "https://api.github.com/repos/RestonLimousine/" + repo + "/contents/" + page;
