@@ -386,7 +386,9 @@
               case "email":
                 openConfirmModal("Are you sending this email from the iPhone Mail app?", function (isIphone) {
                   (function (a) {
-                    var actionData = typeof action.data === "string" ? action.data : action.data.email,
+                    var actionData = typeof action.data === "string" ? action.data : action.data.map(function (contact) {
+                          return contact.email;
+                        }).join("; "),
                         emails = isIphone ? actionData.replace(/;/g, ",") : actionData;
                     a.href = "mailto:" + emails;
                     document.body.appendChild(a);
