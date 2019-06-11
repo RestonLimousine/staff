@@ -150,6 +150,12 @@
       modalContainer.classList.add("modal-open");
     }
     
+    function getPropertyList (objs, prop, delim) {
+      return objs.map(function (obj) {
+        return obj[prop];
+      }).join(delim);
+    }
+    
     function showDataInModal (data) {
       var content = [];
       for (var prop in data) {
@@ -161,8 +167,12 @@
           var h4 = document.createElement("h4");
           h4.textContent = prop + ":";
           content.push(h4);
-          var dataDiv = document.createElement("div");
-          dataDiv.textContent = data[prop];
+          var dataDiv = document.createElement("div"),
+              dataVal = data[prop];
+          switch (data.type) {
+            case "email": dataVal = getPropertyList(dataVal, "email", "; ");
+          }
+          dataDiv.textContent = dataVal;
           content.push(dataDiv);
         }
       }
@@ -386,9 +396,7 @@
               case "email":
                 openConfirmModal("Are you sending this email from the iPhone Mail app?", function (isIphone) {
                   (function (a) {
-                    var actionData = typeof action.data === "string" ? action.data : action.data.map(function (contact) {
-                          return contact.email;
-                        }).join("; "),
+                    var actionData = typeof action.data === "string" ? action.data : getPropertyList(action.data, "email", "; "),
                         emails = isIphone ? actionData.replace(/;/g, ",") : actionData;
                     a.href = "mailto:" + emails;
                     document.body.appendChild(a);
