@@ -258,6 +258,9 @@
       if (typeof action.data !== "string") {
         switch (action.type) {
           case "email": action.data = getPropertyList(action.data, "email", "; "); break;
+          case "phone": action.data = action.data.filter(function (contact) {
+            return !!contact.phone;
+          });
         }
       }
       if (!action.data || (action.data.length === 0)) 
