@@ -130,6 +130,12 @@
         modalContainer = document.getElementById("modal-container"),
         modal = document.getElementById("modal-body");
     
+    function closeModal () {
+      modalContainer.classList.remove("modal-open");
+    }
+    
+    document.getElementById("close-modal").addEventListener("click", closeModal, true);
+    
     function openModal (content) {
       modal.innerHTML = "";
       
