@@ -274,8 +274,8 @@
             action.displayData = action.data.map(function (contact) {
               var data = contact.phone;
               data = data.slice(0,3) + "-" + data.slice(3,6) + "-" + data.slice(6);
-              return contact.name ? contact.name + " <" + data + ">" : data;
-            }).join("; ");
+              return contact.name ? contact.name + " (" + data + ")" : data;
+            }).join(", ");
           break;
         }
       }
