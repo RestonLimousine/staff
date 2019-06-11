@@ -404,9 +404,8 @@
               case "email":
                 openConfirmModal("Are you sending this email from the iPhone Mail app?", function (isIphone) {
                   (function (a) {
-                    // var delim = isIphone ? ", " : "; ",
-                    //    emails = getPropertyList(action.data, "email", delim);
-                    a.href = "mailto:" + action.data;
+                    var emails = isIphone ? action.data.replace(/;/g, ",") : action.data;
+                    a.href = "mailto:" + emails;
                     document.body.appendChild(a);
                     a.click();
                     a.remove();
