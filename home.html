@@ -129,7 +129,7 @@
   <script>
     var container = document.getElementById("container"),
         modalContainer = document.getElementById("modal-container"),
-        modal = document.getElementById("modal-body");
+        modalBody = document.getElementById("modal-body");
     
     function closeModal () {
       modalContainer.classList.remove("modal-open");
@@ -138,37 +138,27 @@
     document.getElementById("close-modal").addEventListener("click", closeModal, true);
     
     function openModal (content) {
-      modal.innerHTML = "";
-      
+      modalBody.innerHTML = "";
+      content.forEach(function el) {
+        modalBody.appendChild(el);
+      });
+      modalContainer.classList.add("modal-open");
     }
     
     function showDataInModal (target) {
       var data = target.dataset;
-      modal.innerHTML = "";
-      /*
-      var closeDiv = document.createElement("div"),
-          closeA = document.createElement("a");
-      closeDiv.className = "close-modal";
-      closeA.href = "javascript:void(0)";
-      closeA.textContent = "close";
-      closeA.addEventListener("click", function () {
-        modalContainer.classList.remove("modal-open");
-      }, true);
-      closeDiv.appendChild(closeA);
-      modal.appendChild(closeDiv);
-      */
-      var h3 = document.createElement("h3");
+      var h3 = document.createElement("h3"),
+          content = [h3];
       h3.textContent = target.textContent;
-      modal.appendChild(h3);
       for (var prop in data) {
         var h4 = document.createElement("h4");
         h4.textContent = prop.replace(/_/g, " ") + ":";
-        modal.appendChild(h4);
+        content.push(h4);
         var dataDiv = document.createElement("div");
         dataDiv.textContent = data[prop];
-        modal.appendChild(dataDiv);
+        content.push(dataDiv);
       }
-      modalContainer.classList.add("modal-open");
+      openModal(content);
     }
     
     function openConfirmModal (prmpt, cb) {
