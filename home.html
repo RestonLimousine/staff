@@ -252,6 +252,10 @@
       return copy;
     }
     
+    function formatPhone (phone) {
+      return phone.slice(0,3) + "-" + phone.slice(3,6) + "-" + phone.slice(6);
+    }
+    
     function appendActionTD (tr, action) {
       var actionTD = document.createElement("td");
       actionTD.className = "item-action";
@@ -273,8 +277,7 @@
               return !!contact.phone;
             });
             action.displayData = action.data.map(function (contact) {
-              var data = contact.phone;
-              data = data.slice(0,3) + "-" + data.slice(3,6) + "-" + data.slice(6);
+              var data = formatPhone(contact.phone);
               return contact.name ? contact.name + " (" + data + ")" : data;
             }).join(", ");
           break;
@@ -405,6 +408,7 @@
           li.appendChild(spanBefore);
         }
         a.href = "tel:" + contact.phone;
+        a.textContent = formatPhone(contact.phone);
         li.appendChild(a);
         li.appendChild(spanAfter);
         ul.appendChild(li);
