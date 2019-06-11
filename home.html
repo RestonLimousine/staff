@@ -281,7 +281,12 @@
         if (item.display === false) return;
         var row = [item.header];
         item.actions.forEach(function (action) {
-          row.push(action.data);
+          var data = action.data;
+          switch (action.type) {
+            case "email": data = data.email;
+            case "phone": data = data.phone;
+          }
+          row.push(data);
         });
         ws_data.push(row);
       });
