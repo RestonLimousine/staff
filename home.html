@@ -98,12 +98,13 @@
       .modal-open .modal {
         transform: translateY(0);
       }
-      .close-modal {
+      #modal-header {
         text-align: right;
       }
-      .close-modal a {
+      #close-modal {
         color: gray;
         text-decoration: none;
+        font-weight: bold;
       }
       button {
         font-size: 1em;
@@ -116,16 +117,28 @@
   <div id="container"></div>
   <div id="modal-container" class="modal-container">
     <div class="modal-screen"></div>
-    <div id="modal" class="modal"></div>
+    <div id="modal" class="modal">
+      <div id="modal-header">
+        <a id="close-modal" href="javascript:void(0)">&times;</a>
+      </div>
+      <div id="modal-body"></div>
+      <div id="modal-footer"></div>
+    </div>
   </div>
   <script>
     var container = document.getElementById("container"),
         modalContainer = document.getElementById("modal-container"),
-        modal = document.getElementById("modal");
+        modal = document.getElementById("modal-body");
     
-    function openModal (target) {
+    function openModal (content) {
+      modal.innerHTML = "";
+      
+    }
+    
+    function showDataInModal (target) {
       var data = target.dataset;
       modal.innerHTML = "";
+      /*
       var closeDiv = document.createElement("div"),
           closeA = document.createElement("a");
       closeDiv.className = "close-modal";
@@ -136,6 +149,7 @@
       }, true);
       closeDiv.appendChild(closeA);
       modal.appendChild(closeDiv);
+      */
       var h3 = document.createElement("h3");
       h3.textContent = target.textContent;
       modal.appendChild(h3);
@@ -369,7 +383,7 @@
               loadPage(data);
             }));
           } else if (target.classList.contains("item-header")) {
-            openModal(target);
+            showDataInModal(target);
           } else if (action.data) {
             switch (action.type) {
               case "email":
