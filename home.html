@@ -211,7 +211,6 @@
         case String:
           var n = template.match(/^\{\{(\w+)\}\}$/);
           if (n) {
-            console.log(template, n, item, item[n[1]]);
             copy = item[n[1]];
           } else {
             copy = template.replace(/\{\{(\w+)\}\}/g, function (_, m) {
@@ -235,7 +234,7 @@
       actionTD.dataset.data = action.data || "";
       actionTD.textContent = action.text;
       if (!action.data) actionTD.className += " no-data";
-      actionTD.addEventListener("click", doAction(action));
+      doAction(actionTD, action);
       tr.appendChild(actionTD);
     }
     
@@ -298,7 +297,7 @@
           }
         }
         tr.appendChild(itemHeader);
-        itemHeader.addEventListener("click", doAction(itemHeader.dataset));
+        doAction(itemHeader, itemHeader.dataset);
         if (item.actions) {
           for (var i = 0; i < item.actions.length; i++) {
             var action = item.actions[i];
@@ -339,9 +338,8 @@
     
     var start = true;
     
-    function doAction (action) {
-      return function (e) {
-        var target = e.target;
+    function doAction (target, action) {
+      target.addEventListener("click", function (e) {
         if (target.classList.contains("item-action")) {
           if (start) {
             start = false;
@@ -389,10 +387,10 @@
             }
           }
         }
-      };
+      }, true);
     }
     
-    console.log("done");
+    // console.log("done");
     
   </script>
 </body>
