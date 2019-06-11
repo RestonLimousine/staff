@@ -152,9 +152,11 @@
     }
     
     function getPropertyList (objs, prop, delim) {
-      return objs.map(function (obj) {
-        return obj[prop];
-      }).join(delim);
+      var out = [];
+      objs.forEach(function (obj) {
+        if (obj[prop]) out.push(obj[prop]);
+      });
+      return out.join(delim);
     }
     
     function showDataInModal (data) {
