@@ -209,10 +209,15 @@
           }
         break;
         case String:
-          copy = template.replace(/\{\{(\w+)\}\}/g, function (_, m) {
-            return item[m] || "";
-          });
-          if (copy === "") copy = null;
+          var n = template.match(/^\{\{(\w+)\}\}$/);
+          if (n) {
+            console.log(template, n, item, item[n[1]]);
+            copy = item[n[1]];
+          } else {
+            copy = template.replace(/\{\{(\w+)\}\}/g, function (_, m) {
+              return item[m] || "";
+            });
+          }
         break;
         default:
           copy = {};
