@@ -377,6 +377,22 @@
       ]
     });
     
+    function openEmailModal (action) {
+      openConfirmModal("Are you sending this email from the iPhone Mail app?", function (isIphone) {
+        (function (a) {
+          var emails = getPropertyList(action.data, "email", isIphone ? ", " : "; ");
+          a.href = "mailto:" + emails;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+        })(document.createElement("a"));
+      });
+    }
+    
+    function openPhoneModal (action) {
+      openModal([action.displayData]);
+    }
+    
     var tokenInput = document.getElementById("token"),
         tokenIdx = location.search.indexOf("token"),
         tokenStart = tokenIdx + "token=".length,
@@ -420,17 +436,8 @@
             showDataInModal(action);
           } else if (action.data) {
             switch (action.type) {
-              case "email":
-                openConfirmModal("Are you sending this email from the iPhone Mail app?", function (isIphone) {
-                  (function (a) {
-                    var emails = getPropertyList(action.data, "email", isIphone ? ", " : "; ");
-                    a.href = "mailto:" + emails;
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-                  })(document.createElement("a"));
-                });
-              break;
+              case "email": openEmailModal(action); break;
+              case "phone": openPhoneModal(action); break;
               case "link": window.open(action.data); break;
             }
           }
