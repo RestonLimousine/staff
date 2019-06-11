@@ -148,7 +148,7 @@
     function showDataInModal (data) {
       var h3 = document.createElement("h3"),
           content = [h3];
-      h3.textContent = target.header;
+      h3.textContent = data.header;
       for (var prop in data) {
         if (prop !== "header") {
           var h4 = document.createElement("h4");
