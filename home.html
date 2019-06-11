@@ -146,11 +146,12 @@
     }
     
     function showDataInModal (data) {
-      var h3 = document.createElement("h3"),
-          content = [h3];
-      h3.textContent = data.header;
+      var content = [h3];
       for (var prop in data) {
-        if (prop !== "header") {
+        if (prop === "header") {
+          var h3 = document.createElement("h3");
+          h3.textContent = data.header;
+        } else {
           var h4 = document.createElement("h4");
           h4.textContent = prop + ":";
           content.push(h4);
@@ -163,10 +164,8 @@
     }
     
     function openConfirmModal (prmpt, cb) {
-      modal.innerHTML = "";
       var h3 = document.createElement("h3");
       h3.textContent = prmpt;
-      modal.appendChild(h3);
       var rspDiv = document.createElement("div"),
           yes = document.createElement("button"),
           no = document.createElement("button"),
@@ -177,19 +176,16 @@
       rspDiv.appendChild(yes);
       rspDiv.appendChild(no);
       rspDiv.appendChild(cancel);
-      modal.appendChild(rspDiv);
       yes.addEventListener("click", function () {
-        modalContainer.classList.remove("modal-open");
+        closeModal();
         cb(true);
       }, true);
       no.addEventListener("click", function () {
-        modalContainer.classList.remove("modal-open");
+        closeModal();
         cb(false);
       }, true);
-      cancel.addEventListener("click", function () {
-        modalContainer.classList.remove("modal-open");
-      }, true);
-      modalContainer.classList.add("modal-open");
+      cancel.addEventListener("click", closeModal, true);
+      openModal([h3, rspDiv]);
     }
     
     function insens (s) {
