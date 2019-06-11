@@ -235,6 +235,7 @@
       actionTD.dataset.data = action.data || "";
       actionTD.textContent = action.text;
       if (!action.data) actionTD.className += " no-data";
+      actionTD.addEventListener("click", doAction(action));
       tr.appendChild(actionTD);
     }
     
@@ -297,6 +298,7 @@
           }
         }
         tr.appendChild(itemHeader);
+        itemHeader.addEventListener("click", doAction(itemHeader.dataset));
         if (item.actions) {
           for (var i = 0; i < item.actions.length; i++) {
             var action = item.actions[i];
@@ -337,57 +339,60 @@
     
     var start = true;
     
-    container.addEventListener("click", function (e) {
-      var target = e.target,
-          dataset = target.dataset;
-      if (target.classList.contains("item-action")) {
-        if (start) {
-          start = false;
-          var repo = dataset.repo,
-              page = dataset.page,
-              url = "https://api.github.com/repos/RestonLimousine/" + repo + "/contents/" + page;
+    function doAction (action) {
+      retur function (e) {
+        var target = e.target;
+        if (target.classList.contains("item-action")) {
+          if (start) {
+            start = false;
+            var repo = action.repo,
+                page = action.page,
+                url = "https://api.github.com/repos/RestonLimousine/" + repo + "/contents/" + page;
       
-          fetch(url, {
-            headers: {
-              "Authorization": "token " + token,
-              "User-Agent": "RestonLimousine",
-              "Accept": "application/vnd.github.v3.raw"
-            }
-          }).then(response => response.text().then(function (text) {
-            var data = JSON.parse(text);
-            if (!data.listing) {
-              data.listing = [];
-              data.listingData.forEach(function (item) {
-                data.listing.push(applyTemplate(data.listingTemplate, item));
+            fetch(url, {
+              headers: {
+                "Authorization": "token " + token,
+                "User-Agent": "RestonLimousine",
+                "Accept": "application/vnd.github.v3.raw"
+              }
+            }).then(response => response.text().then(function (text) {
+              var data = JSON.parse(text);
+              if (!data.listing) {
+                data.listing = [];
+                data.listingData.forEach(function (item) {
+                  data.listing.push(applyTemplate(data.listingTemplate, item));
+                });
+              }
+              data.listing.sort(function (x, y) {
+                var h1 = insens(x.header),
+                    h2 = insens(y.header);
+                return h1 > h2 ? 1 : h1 < h2 ? -1 : 0;
               });
+              loadPage(data);
+            }));
+          } else if (target.classList.contains("item-header")) {
+            openModal(target);
+          } else if (action.data) {
+            switch (action.type) {
+              case "email":
+                openConfirmModal("Are you sending this email from the iPhone Mail app?", function (isIphone) {
+                  (function (a) {
+                    var emails = isIphone ? action.data.replace(/;/g, ",") : action.data;
+                    a.href = "mailto:" + emails;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                  })(document.createElement("a"));
+                });
+              break;
+              case "link": window.open(action.data); break;
             }
-            data.listing.sort(function (x, y) {
-              var h1 = insens(x.header),
-                  h2 = insens(y.header);
-              return h1 > h2 ? 1 : h1 < h2 ? -1 : 0;
-            });
-            loadPage(data);
-          }));
-        } else if (target.classList.contains("item-header")) {
-          openModal(target);
-        } else if (dataset.data) {
-          switch (dataset.type) {
-            case "email":
-              openConfirmModal("Are you sending this email from the iPhone Mail app?", function (isIphone) {
-                (function (a) {
-                  var emails = isIphone ? dataset.data.replace(/;/g, ",") : dataset.data;
-                  a.href = "mailto:" + emails;
-                  document.body.appendChild(a);
-                  a.click();
-                  a.remove();
-                })(document.createElement("a"));
-              });
-            break;
-            case "link": window.open(dataset.data); break;
           }
         }
-      }
-    }, true);
+      };
+    }
+    
+    console.log("done");
     
   </script>
 </body>
