@@ -349,6 +349,7 @@
         if (item.actions) {
           for (var i = 0; i < item.actions.length; i++) {
             var action = item.actions[i];
+            action.itemHeader = item.header;
             appendActionTD(tr, action);
             headerAction[action.text] = action.displayData;
           }
@@ -390,7 +391,15 @@
     }
     
     function openPhoneModal (action) {
-      openModal([action.displayData]);
+      var h3 = document.createElement("h3"),
+          ul = document.createElement("ul");
+      h3.textContent = action.itemHeader;
+      action.data.forEach(function (contact) {
+        var li = document.createElement("li");
+        li.textContent = contact.phone;
+        ul.appendChild(li);
+      });
+      openModal([h3, ul]);
     }
     
     var tokenInput = document.getElementById("token"),
