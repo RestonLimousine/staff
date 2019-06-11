@@ -168,8 +168,8 @@
           h4.textContent = prop + ":";
           content.push(h4);
           var dataDiv = document.createElement("div"),
-              dataVal = data[prop];
-          switch (data.type) {
+              dataVal = data[prop][1];
+          switch (data[prop][0]) {
             case "email": dataVal = getPropertyList(dataVal, "email", "; ");
           }
           dataDiv.textContent = dataVal;
@@ -323,7 +323,7 @@
         if (item.actions) {
           for (var i = 0; i < item.actions.length; i++) {
             var action = item.actions[i];
-            headerAction[action.text] = action.data;
+            headerAction[action.text] = [action.type, action.data];
             appendActionTD(tr, action);
           }
         }
