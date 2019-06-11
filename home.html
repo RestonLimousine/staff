@@ -306,7 +306,7 @@
         itemHeader.textContent = item.header;
         if (item.data) {
           for (var prop in item.data) {
-            itemHeader.dataset[prop] = item.data[prop];
+            headerAction[prop] = item.data[prop];
           }
         }
         tr.appendChild(itemHeader);
