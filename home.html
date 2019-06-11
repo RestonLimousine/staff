@@ -395,8 +395,18 @@
           ul = document.createElement("ul");
       h3.textContent = action.itemHeader;
       action.data.forEach(function (contact) {
-        var li = document.createElement("li");
-        li.textContent = contact.phone;
+        var li = document.createElement("li"),
+            a = document.createElement("a"),
+            spanBefore = document.createElement("span"),
+            spanAfter = document.createElement("span");
+        if (contact.name) {
+          spanBefore.textContent = contact.name + " (";
+          spanAfter.textContent = ")";
+          li.appendChild(spanBefore);
+        }
+        a.href = "tel:" + contact.phone;
+        li.appendChild(a);
+        li.appendChild(spanAfter);
         ul.appendChild(li);
       });
       openModal([h3, ul]);
