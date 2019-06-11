@@ -283,8 +283,8 @@
         item.actions.forEach(function (action) {
           var data = action.data;
           switch (action.type) {
-            case "email": data = data.email;
-            case "phone": data = data.phone;
+            case "email": data = getPropertyList(data, "email", "; ");
+            case "phone": data = getPropertyList(data, "phone", "; ");
           }
           row.push(data);
         });
