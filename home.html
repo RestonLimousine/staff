@@ -444,6 +444,7 @@
               }
             }).then(response => response.text().then(function (text) {
               var data = JSON.parse(text);
+              console.log(data);
               if (!data.listing) {
                 data.listing = [];
                 data.listingData.forEach(function (item) {
