@@ -340,7 +340,7 @@
       var tbody = document.createElement("tbody");
       table.appendChild(tbody);
       pageContent.listing.forEach(function (item) {
-        if (item.display === false) return;
+        if (!item.display) return;
         var tr = document.createElement("tr"),
             itemHeader = document.createElement("td"),
             headerAction = {header: item.header};
