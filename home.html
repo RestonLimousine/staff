@@ -309,7 +309,7 @@
         headers.push(action.text);
       });
       listing.forEach(function (item) {
-        if (item.display === false) return;
+        if (item.display !== "true") return;
         var row = [item.header];
         item.actions.forEach(function (action) {
           row.push(action.displayData);
@@ -340,7 +340,7 @@
       var tbody = document.createElement("tbody");
       table.appendChild(tbody);
       pageContent.listing.forEach(function (item) {
-        if (!item.display) return;
+        if (item.display !== "true") return;
         var tr = document.createElement("tr"),
             itemHeader = document.createElement("td"),
             headerAction = {header: item.header};
