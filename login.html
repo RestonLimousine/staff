@@ -108,7 +108,7 @@ async function decryptData(encryptedData, password) {
 }
       
       const ciphertext = "HJXiTbexjHFF1Nu9cL0Ob1MbVWZnsKRTmQJ6368nhgbU4ybEGbRchRBjvI0bhDLAx3SjTSYDknj6jtf94DPxqysT21pVz9WchfwWZxicnwQISsS7";
-      document.getElementById("login").onclick = function () {
+      document.getElementById("login").onclick = async function () {
         const token = await decryptData(ciphertext, document.getElementById("password").value);
         window.location.href = `https://restonlimousine.github.io/staff/home.html?token=${token}`;
       };
