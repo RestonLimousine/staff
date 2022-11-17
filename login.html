@@ -7,6 +7,9 @@
       <label>Enter Password</label>
       <input type="password" id="password">
     </p>
+    <p>
+      <button id="login">Login</button>
+    </p>
     <script>
 const buff_to_base64 = (buff) => btoa(String.fromCharCode.apply(null, buff));
 
@@ -103,6 +106,12 @@ async function decryptData(encryptedData, password) {
     return "";
   }
 }
+      
+      const ciphertext = "HJXiTbexjHFF1Nu9cL0Ob1MbVWZnsKRTmQJ6368nhgbU4ybEGbRchRBjvI0bhDLAx3SjTSYDknj6jtf94DPxqysT21pVz9WchfwWZxicnwQISsS7";
+      document.getElementById("login").onclick = function () {
+        const token = await decryptData(ciphertext, document.getElementById("password").value);
+        window.location.href = `https://restonlimousine.github.io/staff/home.html?token=${token}`;
+      };
     </script>
   </body>
 </html>
