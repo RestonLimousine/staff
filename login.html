@@ -14,27 +14,10 @@
     <script>
 const buff_to_base64 = (buff) => btoa(String.fromCharCode.apply(null, buff));
 
-const base64_to_buf = (b64) =>
-  Uint8Array.from(atob(b64), (c) => c.charCodeAt(null));
+const base64_to_buf = (b64) => Uint8Array.from(atob(b64), (c) => c.charCodeAt(null));
 
 const enc = new TextEncoder();
 const dec = new TextDecoder();
-
-async function encrypt() {
-  const data = window.document.getElementById("data").value;
-  let encryptedDataOut = window.document.getElementById("encryptedData");
-  const password = window.prompt("Password");
-  const encryptedData = await encryptData(data, password);
-  encryptedDataOut.value = encryptedData;
-}
-
-async function decrypt() {
-  const password = window.prompt("Password");
-  const encryptedData = window.document.getElementById("encryptedData").value;
-  let decryptedDataOut = window.document.getElementById("decrypted");
-  const decryptedData = await decryptData(encryptedData, password);
-  decryptedDataOut.value = decryptedData || "decryption failed!";
-}
 
 const getPasswordKey = (password) =>
   window.crypto.subtle.importKey("raw", enc.encode(password), "PBKDF2", false, [
@@ -79,9 +62,6 @@ async function encryptData(apiKey, password) {
     buff.set(encryptedContentArr, salt.byteLength + iv.byteLength);
     const base64Buff = buff_to_base64(buff);
     return base64Buff;
-  } catch (e) {
-    console.log(`Error - ${e}`);
-    return "";
   }
 }
 
@@ -102,13 +82,11 @@ async function decryptData(encryptedData, password) {
       data
     );
     return dec.decode(decryptedContent);
-  } catch (e) {
-    console.log(`Error - ${e}`);
-    return "";
   }
 }
       
-      const ciphertext = "phYq+U6R8HloUVO8ctqvLksw6MaV6LJjlzkp88x5mxcEvyDHFL0n/nEvEe/3E7kk8/Rw5aY8ocdUyG6AfNOSKoxAdV2Djy1d8IZyvlFKI5x8zq8q";
+      // const ciphertext = "phYq+U6R8HloUVO8ctqvLksw6MaV6LJjlzkp88x5mxcEvyDHFL0n/nEvEe/3E7kk8/Rw5aY8ocdUyG6AfNOSKoxAdV2Djy1d8IZyvlFKI5x8zq8q";
+      const ciphertext = "nQhEieCOi6p2sOQgHprzqm3woEk2J9aKwjj6PDdQvuHVZM+M2rNFF4yPKccU+b39JW92nelKtN6mGnJy5wSG90rCnL9zc5/XBHLoQCBiQaYtpvE9";
       document.getElementById("login").onclick = async function () {
         const token = await decryptData(ciphertext, document.getElementById("password").value);
         window.location.href = `https://restonlimousine.github.io/staff/home.html?token=${token}`;
