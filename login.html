@@ -39,50 +39,45 @@ const deriveKey = (passwordKey, salt, keyUsage) =>
   );
 
 async function encryptData(apiKey, password) {
-  try {
-    const salt = window.crypto.getRandomValues(new Uint8Array(16));
-    const iv = window.crypto.getRandomValues(new Uint8Array(12));
-    const passwordKey = await getPasswordKey(password);
-    const aesKey = await deriveKey(passwordKey, salt, ["encrypt"]);
-    const encryptedContent = await window.crypto.subtle.encrypt(
-      {
-        name: "AES-GCM",
-        iv: iv,
-      },
-      aesKey,
-      enc.encode(apiKey)
-    );
-
-    const encryptedContentArr = new Uint8Array(encryptedContent);
-    let buff = new Uint8Array(
-      salt.byteLength + iv.byteLength + encryptedContentArr.byteLength
-    );
-    buff.set(salt, 0);
-    buff.set(iv, salt.byteLength);
-    buff.set(encryptedContentArr, salt.byteLength + iv.byteLength);
-    const base64Buff = buff_to_base64(buff);
-    return base64Buff;
-  }
+  const salt = window.crypto.getRandomValues(new Uint8Array(16));
+  const iv = window.crypto.getRandomValues(new Uint8Array(12));
+  const passwordKey = await getPasswordKey(password);
+  const aesKey = await deriveKey(passwordKey, salt, ["encrypt"]);
+  const encryptedContent = await window.crypto.subtle.encrypt(
+    {
+      name: "AES-GCM",
+      iv: iv,
+    },
+    aesKey,
+    enc.encode(apiKey)
+  );
+  const encryptedContentArr = new Uint8Array(encryptedContent);
+  let buff = new Uint8Array(
+    salt.byteLength + iv.byteLength + encryptedContentArr.byteLength
+  );
+  buff.set(salt, 0);
+  buff.set(iv, salt.byteLength);
+  buff.set(encryptedContentArr, salt.byteLength + iv.byteLength);
+  const base64Buff = buff_to_base64(buff);
+  return base64Buff;
 }
 
 async function decryptData(encryptedData, password) {
-  try {
-    const encryptedDataBuff = base64_to_buf(encryptedData);
-    const salt = encryptedDataBuff.slice(0, 16);
-    const iv = encryptedDataBuff.slice(16, 16 + 12);
-    const data = encryptedDataBuff.slice(16 + 12);
-    const passwordKey = await getPasswordKey(password);
-    const aesKey = await deriveKey(passwordKey, salt, ["decrypt"]);
-    const decryptedContent = await window.crypto.subtle.decrypt(
-      {
-        name: "AES-GCM",
-        iv: iv,
-      },
-      aesKey,
-      data
-    );
-    return dec.decode(decryptedContent);
-  }
+  const encryptedDataBuff = base64_to_buf(encryptedData);
+  const salt = encryptedDataBuff.slice(0, 16);
+  const iv = encryptedDataBuff.slice(16, 16 + 12);
+  const data = encryptedDataBuff.slice(16 + 12);
+  const passwordKey = await getPasswordKey(password);
+  const aesKey = await deriveKey(passwordKey, salt, ["decrypt"]);
+  const decryptedContent = await window.crypto.subtle.decrypt(
+    {
+      name: "AES-GCM",
+      iv: iv,
+    },
+    aesKey,
+    data
+  );
+  return dec.decode(decryptedContent);
 }
       
       // const ciphertext = "phYq+U6R8HloUVO8ctqvLksw6MaV6LJjlzkp88x5mxcEvyDHFL0n/nEvEe/3E7kk8/Rw5aY8ocdUyG6AfNOSKoxAdV2Djy1d8IZyvlFKI5x8zq8q";
