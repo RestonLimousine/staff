@@ -80,8 +80,8 @@ async function decryptData(encryptedData, password) {
   return dec.decode(decryptedContent);
 }
       
-      // const ciphertext = "phYq+U6R8HloUVO8ctqvLksw6MaV6LJjlzkp88x5mxcEvyDHFL0n/nEvEe/3E7kk8/Rw5aY8ocdUyG6AfNOSKoxAdV2Djy1d8IZyvlFKI5x8zq8q";
-      const ciphertext = "nQhEieCOi6p2sOQgHprzqm3woEk2J9aKwjj6PDdQvuHVZM+M2rNFF4yPKccU+b39JW92nelKtN6mGnJy5wSG90rCnL9zc5/XBHLoQCBiQaYtpvE9";
+      // const ciphertext = "nQhEieCOi6p2sOQgHprzqm3woEk2J9aKwjj6PDdQvuHVZM+M2rNFF4yPKccU+b39JW92nelKtN6mGnJy5wSG90rCnL9zc5/XBHLoQCBiQaYtpvE9";
+      const ciphertext = "srHRM6GddJL+t6ny+13XA/XjprhF+Jt4FvKK0eXKGoPRPgRXaAf9PlWEVtTJxRyDiqZUTqIAx5OAHwsvjgaKPHjSBdFPnU/3oCZoFrxVtivEaw49";
       document.getElementById("login").onclick = async function () {
         const token = await decryptData(ciphertext, document.getElementById("password").value);
         window.location.href = `https://restonlimousine.github.io/staff/home.html?token=${token}`;
