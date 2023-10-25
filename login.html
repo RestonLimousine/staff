@@ -79,9 +79,11 @@ async function decryptData(encryptedData, password) {
   );
   return dec.decode(decryptedContent);
 }
-      
-      // const ciphertext = "srHRM6GddJL+t6ny+13XA/XjprhF+Jt4FvKK0eXKGoPRPgRXaAf9PlWEVtTJxRyDiqZUTqIAx5OAHwsvjgaKPHjSBdFPnU/3oCZoFrxVtivEaw49";
-      const ciphertext = "m5DFsMbgkqbXtWwEDeowGAGxFNuupCrqyee/x8XnGudMWeK/2Q8yzG+m5gbKoDkYwVasrkMTp6hUqqkO4t0/69CKxVdmK98xGmMsQqRYUux31uYA";
+
+      // to generate new cipher:
+      // await encryptData(github_token, password)
+      // const ciphertext = "m5DFsMbgkqbXtWwEDeowGAGxFNuupCrqyee/x8XnGudMWeK/2Q8yzG+m5gbKoDkYwVasrkMTp6hUqqkO4t0/69CKxVdmK98xGmMsQqRYUux31uYA";
+      const ciphertext = "RKwEx2m0QnETUZZkQEbTTTr/yYtm3B3PaH3x888CdX+mP8y/dhkKLd9Ady9v+OSwDKWNsvGcOAb/1iJVUrfF1mAMQafghLXnsibWUKonASH45k+p";
       document.getElementById("login").onclick = async function () {
         const token = await decryptData(ciphertext, document.getElementById("password").value);
         window.location.href = `https://restonlimousine.github.io/staff/home.html?token=${token}`;
