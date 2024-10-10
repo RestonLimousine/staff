@@ -82,8 +82,8 @@ async function decryptData(encryptedData, password) {
 
       // to generate new cipher:
       // await encryptData(github_token, password)
-      // const ciphertext = "N5eVcx9FwC8CdgL69nEqYuwwKHM6F980clgSo8BJrN7crdbVEChnUgBW8gZrVvdJLXQigji5jN8I5YCuHxG+syzOg8ya10FPydMCdoaTUnOcXvFT";
-      const ciphertext = "GIiD3VrfWh6tS6WDSsb0J2WDQBMJ0gJGhkCxAw5k5J6pn7fRwO4KM0/Kdu1Z3jMpUsAv3mjVVl7E37T7lgADEh5xsxUuqR2IE2KzTEFJzPvspUkf";
+      // const ciphertext = "GIiD3VrfWh6tS6WDSsb0J2WDQBMJ0gJGhkCxAw5k5J6pn7fRwO4KM0/Kdu1Z3jMpUsAv3mjVVl7E37T7lgADEh5xsxUuqR2IE2KzTEFJzPvspUkf";
+      const ciphertext = "rbFfxCLnxWB56CpbtoXleb+CxhfwGBWS7y2j/4uRHr0TR+1wxDi9jTW/3W+/S/mfevMUbUVOWPDPluNs2g8uAW3D8lA38hHM/u2jBQkHM4BP31Ao";
       document.getElementById("login").onclick = async function () {
         const token = await decryptData(ciphertext, document.getElementById("password").value);
         window.location.href = `https://restonlimousine.github.io/staff/home.html?token=${token}`;
